@@ -1,7 +1,0 @@
-[13:39:16] [Render thread/INFO]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', name='PROD'
-[13:39:16] [Render thread/INFO]: Setting user: Player403
-[13:39:16] [Render thread/INFO]: [STDERR]: [LWJGL] Failed to load a library. Possible solutions:
-	a) Add the directory that contains the shared library to -Djava.library.path or -Dorg.lwjgl.librarypath.
-	b) Add the JAR that contains the shared library to the classpath.
-[13:39:16] [Render thread/INFO]: [STDERR]: [LWJGL] Enable debug mode with -Dorg.lwjgl.util.Debug=true for better diagnostics.
-[13:39:16] [Render thread/INFO]: [STDERR]: [LWJGL] Enable the SharedLibraryLoader debug mode with -Dorg.lwjgl.util.DebugLoader=true for better diagnostics.
