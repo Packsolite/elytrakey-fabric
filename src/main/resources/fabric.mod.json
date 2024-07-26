@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "elytrakey",
+  "version": "1.1.0",
+  "name": "ElytraKey",
+  "description": "This is mod adds a button to swap Eyltra.",
+  "authors": [
+	"LiquidDev"
+  ],
+  "contact": {
+	"homepage": "https://fabricmc.net/",
+	"sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/elytrakey/icon.png",
+  "environment": "*",
+  "entrypoints": {
+	"main": [
+	  "de.liquiddev.elytrakey.ElytraKey"
+	]
+  },
+  "mixins": [
+	"elytrakey.mixins.json"
+  ],
+  "depends": {
+	"fabricloader": ">=0.7.4",
+	"fabric": "*",
+	"minecraft": [
+	  "1.21.x"
+	]
+  },
+  "suggests": {
+	"flamingo": "*"
+  }
+}
