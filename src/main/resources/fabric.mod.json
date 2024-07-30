@@ -8,8 +8,8 @@
 	"Packsolite"
   ],
   "contact": {
-	"homepage": "https://fabricmc.net/",
-	"sources": "https://github.com/FabricMC/fabric-example-mod"
+	"homepage": "https://modrinth.com/mod/elytrakey/",
+	"sources": "https://github.com/Packsolite/elytrakey-fabric"
   },
   "license": "GPL-3.0-or-later",
   "icon": "assets/elytrakey/icon.png",
