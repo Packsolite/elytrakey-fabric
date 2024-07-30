@@ -134,9 +134,8 @@ public class ElytraKey implements ModInitializer {
 	}
 
 	public boolean isElytraEquipped() {
-		ItemStack chest = mc.player.getInventory().getArmorStack(2);
-		System.out.println("chest: " + chest.toString());
-		return chest.getItem() == Items.ELYTRA;
+		ItemStack chestPlate = mc.player.getInventory().getArmorStack(2);
+		return chestPlate.getItem() == Items.ELYTRA;
 	}
 
 	public boolean equipElytra() {
@@ -163,7 +162,6 @@ public class ElytraKey implements ModInitializer {
 						mc.player);
 			}
 		}
-		System.out.println("Should've equipped elytra");
 		return true;
 	}
 
@@ -187,13 +185,10 @@ public class ElytraKey implements ModInitializer {
 			mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, chestSlot, 0, SlotActionType.PICKUP,
 					mc.player);
 		}
-
-		System.out.println("Should've equipped chestplate " + chestSlot);
 		return true;
 	}
 
 	private void swapElytra() {
-		System.out.println("Swap elytra called");
 		if (isElytraEquipped()) {
 			boolean equipped = equipChestplate();
 
