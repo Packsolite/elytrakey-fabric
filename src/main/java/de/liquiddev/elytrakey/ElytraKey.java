@@ -63,10 +63,12 @@ public class ElytraKey implements ModInitializer {
 				return;
 			}
 
-			boolean fireworksInHand = mc.player.getInventory().getMainHandStack().getItem() == Items.FIREWORK_ROCKET;
+			boolean fireworksInMainHand = mc.player.getInventory().getMainHandStack().getItem() == Items.FIREWORK_ROCKET;
+			boolean fireworksInOffHand = mc.player.getInventory().getStack(40).getItem() == Items.FIREWORK_ROCKET;
+
 			boolean isFalling = mc.player.fallDistance > 3;
 
-			if ((AUTO_EQUIP_FIREWORKS && fireworksInHand) || (AUTO_EQUIP_FALL && isFalling)) {
+			if ((AUTO_EQUIP_FIREWORKS && fireworksInMainHand) || (AUTO_EQUIP_FALL && isFalling)) {
 				boolean elytraEquipped = isElytraEquipped();
 				if (!elytraEquipped) {
 					equipElytra();
@@ -80,8 +82,8 @@ public class ElytraKey implements ModInitializer {
 				}
 			}
 
-			if (EASY_TAKEOFF && fireworksInHand) {
-				updateEasyTakeoff();
+			if (EASY_TAKEOFF && (fireworksInMainHand || fireworksInOffHand)) {
+				updateEasyTakeoff(fireworksInMainHand ? Hand.MAIN_HAND : Hand.OFF_HAND);
 			}
 		});
 
@@ -89,13 +91,13 @@ public class ElytraKey implements ModInitializer {
 
 	}
 
-	private void updateEasyTakeoff() {
+	private void updateEasyTakeoff(Hand fireworkHand) {
 
 		if (mc.player.isFallFlying()) {
 			if (boostNextTick) {
 				boostNextTick = false;
 				mc.options.jumpKey.setPressed(false);
-				mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
+				mc.interactionManager.interactItem(mc.player, fireworkHand);
 				mc.player.swingHand(Hand.MAIN_HAND);
 			}
 		} else { // not flying
