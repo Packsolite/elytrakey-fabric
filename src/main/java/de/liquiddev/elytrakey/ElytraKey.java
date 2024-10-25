@@ -93,7 +93,7 @@ public class ElytraKey implements ModInitializer {
 
 	private void updateEasyTakeoff(Hand fireworkHand) {
 
-		if (mc.player.isFallFlying()) {
+		if (mc.player.isGliding()) {
 			if (boostNextTick) {
 				boostNextTick = false;
 				mc.options.jumpKey.setPressed(false);
