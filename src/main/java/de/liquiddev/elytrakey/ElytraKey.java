@@ -65,8 +65,7 @@ public class ElytraKey implements ModInitializer {
 
 			boolean fireworksInMainHand = mc.player.getInventory().getMainHandStack().getItem() == Items.FIREWORK_ROCKET;
 			boolean fireworksInOffHand = mc.player.getInventory().getStack(40).getItem() == Items.FIREWORK_ROCKET;
-
-			boolean isFalling = mc.player.fallDistance > 3;
+			boolean isFalling = !mc.player.isOnGround() && mc.player.getVelocity().getY() < -0.65;
 
 			if ((AUTO_EQUIP_FIREWORKS && fireworksInMainHand) || (AUTO_EQUIP_FALL && isFalling)) {
 				boolean elytraEquipped = isElytraEquipped();
