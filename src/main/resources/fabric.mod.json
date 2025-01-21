@@ -1,11 +1,12 @@
 {
     "schemaVersion": 1,
     "id": "elytrakey",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "name": "ElytraKey",
     "description": "This mod adds a button to swap Elytra.",
     "authors": [
-        "Packsolite"
+        "Packsolite",
+        "PINPAL"
     ],
     "contact": {
         "homepage": "https://modrinth.com/mod/elytrakey/",
