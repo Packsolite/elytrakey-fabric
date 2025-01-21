@@ -89,42 +89,7 @@ public class ElytraKey implements ModInitializer {
 
             // Equip elytra if player jumps in mid-air
             if (DOUBLE_JUMP_EQUIP) {
-                // Reset flags when the player is on the ground
-                if (mc.player.isOnGround()) {
-                    jumpPreviouslyPressed = false;
-                    jumpPreviouslyReleased = false;
-                    jumpNextTick = 0;
-                    return;
-                }
-                // If we haven't detected jump key release yet, keep checking
-                if (!jumpPreviouslyReleased) {
-                    // Detect key down
-                    if (mc.options.jumpKey.isPressed()) {
-                        jumpPreviouslyPressed = true;
-                    }
-                    // Detect key release
-                    if (!mc.options.jumpKey.isPressed() && jumpPreviouslyPressed) {
-                        jumpPreviouslyReleased = true;
-                    }
-                } else if (mc.options.jumpKey.isPressed()) {
-                    if (!isElytraEquipped()) {
-                        equipElytra();
-                        wasAutoEquipped = true;
-
-                        jumpNextTick = 3;
-                    }
-                }
-                // Make player automatically glide after equipping elytra
-                if (jumpNextTick > 0) {
-                    if (jumpNextTick == 3 || jumpNextTick == 1) {
-                        mc.options.jumpKey.setPressed(false);
-                    } else if (jumpNextTick == 2) {
-                        if (!mc.player.isGliding()) {
-                            mc.options.jumpKey.setPressed(true);
-                        }
-                    }
-                    jumpNextTick--;
-                }
+                updateDoubleJumpEquip();
             }
 
             if (EASY_TAKEOFF && (fireworksInMainHand || fireworksInOffHand)) {
@@ -134,6 +99,45 @@ public class ElytraKey implements ModInitializer {
 
         System.out.println("ElytraKey mod initialized!");
 
+    }
+
+    private void updateDoubleJumpEquip() {
+        // Reset flags when the player is on the ground
+        if (mc.player.isOnGround()) {
+            jumpPreviouslyPressed = false;
+            jumpPreviouslyReleased = false;
+            jumpNextTick = 0;
+            return;
+        }
+        // If we haven't detected jump key release yet, keep checking
+        if (!jumpPreviouslyReleased) {
+            // Detect key down
+            if (mc.options.jumpKey.isPressed()) {
+                jumpPreviouslyPressed = true;
+            }
+            // Detect key release
+            if (!mc.options.jumpKey.isPressed() && jumpPreviouslyPressed) {
+                jumpPreviouslyReleased = true;
+            }
+        } else if (mc.options.jumpKey.isPressed()) {
+            if (!isElytraEquipped()) {
+                equipElytra();
+                wasAutoEquipped = true;
+
+                jumpNextTick = 3;
+            }
+        }
+        // Make player automatically glide after equipping elytra
+        if (jumpNextTick > 0) {
+            if (jumpNextTick == 3 || jumpNextTick == 1) {
+                mc.options.jumpKey.setPressed(false);
+            } else if (jumpNextTick == 2) {
+                if (!mc.player.isGliding()) {
+                    mc.options.jumpKey.setPressed(true);
+                }
+            }
+            jumpNextTick--;
+        }
     }
 
     private void updateEasyTakeoff(Hand fireworkHand) {
