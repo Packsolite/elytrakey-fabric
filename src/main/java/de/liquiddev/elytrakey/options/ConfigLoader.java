@@ -12,48 +12,50 @@ import de.liquiddev.elytrakey.ElytraKey;
 
 public class ConfigLoader {
 
-	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	private final String configPath = "config/elytrakey.json";
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final String configPath = "config/elytrakey.json";
 
-	public void loadConfig() {
+    public void loadConfig() {
 
-		File file = new File(configPath);
-		ConfigModel config;
+        File file = new File(configPath);
+        ConfigModel config;
 
-		if (file.exists()) {
-			try (FileReader fr = new FileReader(file)) {
-				config = gson.fromJson(fr, ConfigModel.class);
+        if (file.exists()) {
+            try (FileReader fr = new FileReader(file)) {
+                config = gson.fromJson(fr, ConfigModel.class);
 
-			} catch (IOException ex) {
-				config = new ConfigModel();
-			}
-		} else {
-			config = new ConfigModel();
-		}
+            } catch (IOException ex) {
+                config = new ConfigModel();
+            }
+        } else {
+            config = new ConfigModel();
+        }
 
-		// load config
-		ElytraKey.AUTO_EQUIP_FALL = config.autoEquipFall;
-		ElytraKey.AUTO_EQUIP_FIREWORKS = config.autoEquipFirework;
-		ElytraKey.AUTO_UNEQUIP = config.autoUnequip;
-		ElytraKey.EASY_TAKEOFF = config.easyTakeoff;
-	}
+        // load config
+        ElytraKey.AUTO_EQUIP_FALL = config.autoEquipFall;
+        ElytraKey.AUTO_EQUIP_FIREWORKS = config.autoEquipFirework;
+        ElytraKey.AUTO_UNEQUIP = config.autoUnequip;
+        ElytraKey.EASY_TAKEOFF = config.easyTakeoff;
+        ElytraKey.DOUBLE_JUMP_EQUIP = config.doubleJumpEquip;
+    }
 
-	public void saveConfig() {
-		ConfigModel config = new ConfigModel();
+    public void saveConfig() {
+        ConfigModel config = new ConfigModel();
 
-		// set config
-		config.autoEquipFall = ElytraKey.AUTO_EQUIP_FALL;
-		config.autoEquipFirework = ElytraKey.AUTO_EQUIP_FIREWORKS;
-		config.autoUnequip = ElytraKey.AUTO_UNEQUIP;
-		config.easyTakeoff = ElytraKey.EASY_TAKEOFF;
+        // set config
+        config.autoEquipFall = ElytraKey.AUTO_EQUIP_FALL;
+        config.autoEquipFirework = ElytraKey.AUTO_EQUIP_FIREWORKS;
+        config.autoUnequip = ElytraKey.AUTO_UNEQUIP;
+        config.easyTakeoff = ElytraKey.EASY_TAKEOFF;
+        config.doubleJumpEquip = ElytraKey.DOUBLE_JUMP_EQUIP;
 
-		File file = new File(configPath);
+        File file = new File(configPath);
 
-		try (FileWriter fw = new FileWriter(file)) {
-			gson.toJson(config, fw);
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			throw new RuntimeException("Could not save ElytraKey config", ex);
-		}
-	}
+        try (FileWriter fw = new FileWriter(file)) {
+            gson.toJson(config, fw);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Could not save ElytraKey config", ex);
+        }
+    }
 }
