@@ -17,6 +17,9 @@
   "entrypoints": {
 	"main": [
 	  "de.liquiddev.elytrakey.ElytraKey"
+	],
+	"modmenu": [
+	  "de.liquiddev.elytrakey.ModMenuIntegration"
 	]
   },
   "mixins": [
