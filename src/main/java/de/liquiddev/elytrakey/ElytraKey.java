@@ -44,7 +44,7 @@ public class ElytraKey implements ModInitializer {
 
     private boolean jumpPreviouslyPressed = false;
     private boolean jumpPreviouslyReleased = false;
-    private int jumpNextTick = 0;
+    private boolean glideNextTick = false;
 
     @Override
     public void onInitialize() {
@@ -106,7 +106,7 @@ public class ElytraKey implements ModInitializer {
         if (mc.player.isOnGround()) {
             jumpPreviouslyPressed = false;
             jumpPreviouslyReleased = false;
-            jumpNextTick = 0;
+            glideNextTick = false;
             return;
         }
         // If we haven't detected jump key release yet, keep checking
@@ -121,22 +121,15 @@ public class ElytraKey implements ModInitializer {
             }
         } else if (mc.options.jumpKey.isPressed()) {
             if (!isElytraEquipped()) {
-                equipElytra();
-                wasAutoEquipped = true;
+                wasAutoEquipped = equipElytra();
 
-                jumpNextTick = 3;
+                glideNextTick = true;
             }
         }
         // Make player automatically glide after equipping elytra
-        if (jumpNextTick > 0) {
-            if (jumpNextTick == 3 || jumpNextTick == 1) {
-                mc.options.jumpKey.setPressed(false);
-            } else if (jumpNextTick == 2) {
-                if (!mc.player.isGliding()) {
-                    mc.options.jumpKey.setPressed(true);
-                }
-            }
-            jumpNextTick--;
+        if (glideNextTick && !mc.player.isGliding() && isElytraEquipped()) {
+            mc.player.startGliding();
+            glideNextTick = false;
         }
     }
 
@@ -239,6 +232,12 @@ public class ElytraKey implements ModInitializer {
             mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, chestSlot, 0, SlotActionType.PICKUP,
                     mc.player);
         }
+
+        // Stop Elytra gliding to avoid desync
+        if (mc.player.isGliding()) {
+            mc.player.stopGliding();
+        }
+
         return true;
     }
 
