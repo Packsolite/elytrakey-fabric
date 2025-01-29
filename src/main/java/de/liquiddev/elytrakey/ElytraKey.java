@@ -87,13 +87,11 @@ public class ElytraKey implements ModInitializer {
 				}
 			}
 
+			// Equip elytra, start gliding and boost with fireworks when right-clicking with a firework
 			if (EASY_TAKEOFF && (fireworksInMainHand || fireworksInOffHand)) {
 				updateEasyTakeoff(fireworksInMainHand ? Hand.MAIN_HAND : Hand.OFF_HAND);
 			}
 		});
-
-		System.out.println("ElytraKey mod initialized!");
-
 	}
 
 	private void updateEasyTakeoff(Hand fireworkHand) {
@@ -105,20 +103,19 @@ public class ElytraKey implements ModInitializer {
 				mc.interactionManager.interactItem(mc.player, fireworkHand);
 				mc.player.swingHand(Hand.MAIN_HAND);
 			}
-		} else { // not flying
-
+		} else { // Not flying
 			if (startFlying) {
-				// press space to switch to flying state
+				// Press space to switch to flying state
 				mc.options.jumpKey.setPressed(true);
 				boostNextTick = true;
 				startFlying = false;
 
 			} else if (mc.options.useKey.isPressed()) {
 
-				// clicked with fireworks in air?
+				// Clicked with fireworks in air?
 				if (mc.crosshairTarget instanceof BlockHitResult && mc.crosshairTarget.getType() == Type.MISS) {
 
-					// elytra already equipped?
+					// Elytra already equipped?
 					if (!isElytraEquipped()) {
 						if (!equipElytra()) {
 							return;
@@ -126,12 +123,12 @@ public class ElytraKey implements ModInitializer {
 						wasAutoEquipped = true;
 					}
 
-					// jump if on ground
+					// Jump if on ground
 					if (mc.player.isOnGround()) {
 						mc.player.jump();
 					}
 
-					// start takeoff
+					// Start takeoff
 					startFlying = true;
 					mc.options.jumpKey.setPressed(false);
 				}
