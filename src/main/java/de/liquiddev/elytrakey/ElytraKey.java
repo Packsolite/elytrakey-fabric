@@ -91,6 +91,8 @@ public class ElytraKey implements ModInitializer {
                 updateDoubleJumpEquip();
             }
 
+            // Equip elytra, start gliding and boost with fireworks when right-clicking with
+            // a firework
             if (EASY_TAKEOFF && (fireworksInMainHand || fireworksInOffHand)) {
                 updateEasyTakeoff(fireworksInMainHand ? Hand.MAIN_HAND : Hand.OFF_HAND);
             }
@@ -129,27 +131,28 @@ public class ElytraKey implements ModInitializer {
 
     private void updateEasyTakeoff(Hand fireworkHand) {
         if (!mc.player.isGliding() && mc.options.useKey.isPressed()) {
-            // clicked with fireworks in air?
+            // Clicked with fireworks in air?
             if ((mc.crosshairTarget instanceof BlockHitResult)
                     && ((BlockHitResult) mc.crosshairTarget).getType() == Type.MISS) {
 
-                // elytra already equipped?
+                // Elytra already equipped?
                 if (!isElytraEquipped()) {
+                    // Equip Elytra
                     if (!equipElytra()) {
                         return;
                     }
                     wasAutoEquipped = true;
                 }
 
-                // jump if on ground
+                // Jump if on ground
                 if (mc.player.isOnGround()) {
                     mc.player.jump();
                 }
 
-                // start gliding with elytra
+                // Start gliding with Elytra
                 startGliding();
 
-                // boost with firework
+                // Boost with firework
                 mc.interactionManager.interactItem(mc.player, fireworkHand);
                 mc.player.swingHand(Hand.MAIN_HAND);
             }
