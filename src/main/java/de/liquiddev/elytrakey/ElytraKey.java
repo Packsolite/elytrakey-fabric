@@ -246,9 +246,6 @@ public class ElytraKey implements ModInitializer {
         // Update Server Side
         mc.getNetworkHandler().sendPacket(
                 new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
-
-        // Client Side
-        mc.player.startGliding();
     }
 
     private int findChestplate() {
