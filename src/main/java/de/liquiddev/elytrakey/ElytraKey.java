@@ -66,6 +66,7 @@ public class ElytraKey implements ModInitializer {
 			boolean fireworksInMainHand = mc.player.getInventory().getMainHandStack().getItem() == Items.FIREWORK_ROCKET;
 			boolean fireworksInOffHand = mc.player.getInventory().getStack(40).getItem() == Items.FIREWORK_ROCKET;
 			boolean isFalling = !mc.player.isOnGround() && mc.player.getVelocity().getY() < -0.65;
+			boolean hasLanded = mc.player.isOnGround() || mc.player.isTouchingWater();
 
 			if ((AUTO_EQUIP_FIREWORKS && fireworksInMainHand) || (AUTO_EQUIP_FALL && isFalling)) {
 				boolean elytraEquipped = isElytraEquipped();
@@ -74,7 +75,7 @@ public class ElytraKey implements ModInitializer {
 					wasAutoEquipped = true;
 				}
 			} else {
-				boolean unEquip = AUTO_UNEQUIP && wasAutoEquipped && mc.player.isOnGround();
+				boolean unEquip = AUTO_UNEQUIP && wasAutoEquipped && hasLanded;
 				if (unEquip && isElytraEquipped()) {
 					wasAutoEquipped = false;
 					equipChestplate();
@@ -110,8 +111,7 @@ public class ElytraKey implements ModInitializer {
 			} else if (mc.options.useKey.isPressed()) {
 
 				// clicked with fireworks in air?
-				if ((mc.crosshairTarget instanceof BlockHitResult)
-						&& ((BlockHitResult) mc.crosshairTarget).getType() == Type.MISS) {
+				if (mc.crosshairTarget instanceof BlockHitResult && mc.crosshairTarget.getType() == Type.MISS) {
 
 					// elytra already equipped?
 					if (!isElytraEquipped()) {
