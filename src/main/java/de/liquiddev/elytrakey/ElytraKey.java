@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -21,6 +22,9 @@ import org.lwjgl.glfw.GLFW;
 import static net.minecraft.text.Text.literal;
 
 public class ElytraKey implements ModInitializer {
+
+	private static final int OFF_HAND_SLOT_ID = 40;
+	private static final int CHEST_PLATE_SLOT_ID = EquipmentSlot.CHEST.getOffsetEntitySlotId(36);
 
 	public static boolean AUTO_EQUIP_FALL = true;
 	public static boolean AUTO_EQUIP_FIREWORKS = false;
@@ -63,8 +67,9 @@ public class ElytraKey implements ModInitializer {
 				return;
 			}
 
-			boolean fireworksInMainHand = mc.player.getInventory().getMainHandStack().getItem() == Items.FIREWORK_ROCKET;
-			boolean fireworksInOffHand = mc.player.getInventory().getStack(40).getItem() == Items.FIREWORK_ROCKET;
+
+			boolean fireworksInMainHand = mc.player.getInventory().getSelectedStack().getItem() == Items.FIREWORK_ROCKET;
+			boolean fireworksInOffHand = mc.player.getInventory().getStack(OFF_HAND_SLOT_ID).getItem() == Items.FIREWORK_ROCKET;
 			boolean isFalling = !mc.player.isOnGround() && mc.player.getVelocity().getY() < -0.65;
 			boolean hasLanded = mc.player.isOnGround() || mc.player.isTouchingWater();
 
@@ -135,12 +140,12 @@ public class ElytraKey implements ModInitializer {
 	}
 
 	public boolean isElytraEquipped() {
-		ItemStack chestPlate = mc.player.getInventory().getArmorStack(2);
+		ItemStack chestPlate = mc.player.getInventory().getStack(CHEST_PLATE_SLOT_ID);
 		return chestPlate.getItem() == Items.ELYTRA;
 	}
 
 	public boolean equipElytra() {
-		ItemStack chest = mc.player.getInventory().getArmorStack(2);
+		ItemStack chest = mc.player.getInventory().getStack(CHEST_PLATE_SLOT_ID);
 
 		if (chest.getItem() != Items.ELYTRA) {
 			int elytraSlot = searchItem(Items.ELYTRA);
@@ -236,7 +241,7 @@ public class ElytraKey implements ModInitializer {
 	}
 
 	private int searchItem(Item item) {
-		DefaultedList<ItemStack> container = mc.player.getInventory().main;
+		DefaultedList<ItemStack> container = mc.player.getInventory().getMainStacks();
 		for (int i = 0; i < container.size(); i++) {
 			if (container.get(i).getItem() == item) {
 				return i;
