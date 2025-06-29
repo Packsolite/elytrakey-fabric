@@ -88,8 +88,8 @@ public class ElytraKeyOptions extends Screen {
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
 
-		context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 15, 16777215);
-		context.drawCenteredTextWithShadow(textRenderer, autoEquipText, width / 2 - 10, height / 6 + yOffset + 30, 16777215);
+		context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 15, -1);
+		context.drawCenteredTextWithShadow(textRenderer, autoEquipText, width / 2 - 10, height / 6 + yOffset + 30, -1);
 	}
 
 	@Override
