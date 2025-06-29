@@ -17,7 +17,7 @@ public class ElytraKeyOptions extends Screen {
 
 	Text autoEquipText = literal("Automatically equip Elytra:");
 	Text easyTakeofTooltipText = literal(
-			"Automatically jump, boost and equip Elytra when right clicking a firework.");
+		"Automatically jump, boost and equip Elytra when right clicking a firework.");
 	Text autoUnequipTooltipText = literal("Automatically switch back to chestplate when landing.");
 
 	CheckboxWidget fallWidget;
@@ -31,18 +31,18 @@ public class ElytraKeyOptions extends Screen {
 
 	public void init() {
 		this.addDrawableChild(fallWidget = CheckboxWidget.builder(
-						literal("when falling"),
-						this.textRenderer)
-				.pos(this.width / 2 - 75, this.height / 6 + yOffset + 40)
-				.checked(ElytraKey.AUTO_EQUIP_FALL)
-				.build());
+				literal("when falling"),
+				this.textRenderer)
+			.pos(this.width / 2 - 75, this.height / 6 + yOffset + 40)
+			.checked(ElytraKey.AUTO_EQUIP_FALL)
+			.build());
 
 		this.addDrawableChild(fireworkWidget = CheckboxWidget.builder(
-						literal("when holding Firework"),
-						this.textRenderer)
-				.pos(this.width / 2 - 75, this.height / 6 + yOffset + 60)
-				.checked(ElytraKey.AUTO_EQUIP_FIREWORKS)
-				.build());
+				literal("when holding Firework"),
+				this.textRenderer)
+			.pos(this.width / 2 - 75, this.height / 6 + yOffset + 60)
+			.checked(ElytraKey.AUTO_EQUIP_FIREWORKS)
+			.build());
 
 		this.addEasyTakeoffButton();
 		this.addAutoUnequipButton();
@@ -58,10 +58,10 @@ public class ElytraKeyOptions extends Screen {
 		};
 
 		var button = ButtonWidget.builder(buttonText.get(), action)
-				.position(this.width / 2 - 75, this.height / 6 + yOffset)
-				.size(150, 20)
-				.tooltip(tooltipText)
-				.build();
+			.position(this.width / 2 - 75, this.height / 6 + yOffset)
+			.size(150, 20)
+			.tooltip(tooltipText)
+			.build();
 
 		this.addDrawableChild(button);
 	}
@@ -76,10 +76,10 @@ public class ElytraKeyOptions extends Screen {
 		};
 
 		var button = ButtonWidget.builder(buttonText.get(), action)
-				.position(this.width / 2 - 75, this.height / 6 + yOffset + 90)
-				.size(150, 20)
-				.tooltip(tooltipText)
-				.build();
+			.position(this.width / 2 - 75, this.height / 6 + yOffset + 90)
+			.size(150, 20)
+			.tooltip(tooltipText)
+			.build();
 
 		this.addDrawableChild(button);
 	}

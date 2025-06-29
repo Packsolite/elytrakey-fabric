@@ -50,9 +50,9 @@ public class ElytraKey implements ModInitializer {
 		instance = this;
 		new ConfigLoader().loadConfig();
 		swapElytraKeyBinding = KeyBindingHelper.registerKeyBinding(
-				new KeyBinding("Swap Elytra", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "key.categories.misc"));
+			new KeyBinding("Swap Elytra", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "key.categories.misc"));
 		elytraOptionsKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("ElytraKey Options",
-				InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_K, "key.categories.misc"));
+			InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_K, "key.categories.misc"));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (swapElytraKeyBinding.wasPressed()) {
@@ -153,16 +153,16 @@ public class ElytraKey implements ModInitializer {
 
 			if (elytraSlot < 9) {
 				mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, 6, elytraSlot, SlotActionType.SWAP,
-						mc.player);
+					mc.player);
 			} else {
 				mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, elytraSlot, 0, SlotActionType.PICKUP,
-						mc.player);
+					mc.player);
 
 				mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, 6, 0, SlotActionType.PICKUP,
-						mc.player);
+					mc.player);
 
 				mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, elytraSlot, 0, SlotActionType.PICKUP,
-						mc.player);
+					mc.player);
 			}
 		}
 		return true;
@@ -177,16 +177,16 @@ public class ElytraKey implements ModInitializer {
 
 		if (chestSlot < 9) {
 			mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, 6, chestSlot, SlotActionType.SWAP,
-					mc.player);
+				mc.player);
 		} else {
 			mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, chestSlot, 0, SlotActionType.PICKUP,
-					mc.player);
+				mc.player);
 
 			mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, 6, 0, SlotActionType.PICKUP,
-					mc.player);
+				mc.player);
 
 			mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, chestSlot, 0, SlotActionType.PICKUP,
-					mc.player);
+				mc.player);
 		}
 		return true;
 	}
@@ -203,7 +203,7 @@ public class ElytraKey implements ModInitializer {
 					print("Inventory full!");
 				} else {
 					mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, 6, emptySlot,
-							SlotActionType.SWAP, mc.player);
+						SlotActionType.SWAP, mc.player);
 				}
 			}
 		} else {

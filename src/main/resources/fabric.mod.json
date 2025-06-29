@@ -1,38 +1,38 @@
 {
-  "schemaVersion": 1,
-  "id": "elytrakey",
-  "version": "1.2.0",
-  "name": "ElytraKey",
-  "description": "This mod adds a button to swap Elytra.",
-  "authors": [
-	"Packsolite"
-  ],
-  "contact": {
-	"homepage": "https://modrinth.com/mod/elytrakey/",
-	"sources": "https://github.com/Packsolite/elytrakey-fabric"
-  },
-  "license": "GPL-3.0-or-later",
-  "icon": "assets/elytrakey/icon.png",
-  "environment": "*",
-  "entrypoints": {
-	"main": [
-	  "de.liquiddev.elytrakey.ElytraKey"
+	"schemaVersion": 1,
+	"id": "elytrakey",
+	"version": "1.2.0",
+	"name": "ElytraKey",
+	"description": "This mod adds a button to swap Elytra.",
+	"authors": [
+		"Packsolite"
 	],
-	"modmenu": [
-	  "de.liquiddev.elytrakey.ModMenuIntegration"
-	]
-  },
-  "mixins": [
-	"elytrakey.mixins.json"
-  ],
-  "depends": {
-	"fabricloader": ">=0.15.0",
-	"fabric": "*",
-	"minecraft": [
-	  "1.21.6"
-	]
-  },
-  "suggests": {
-	"flamingo": "*"
-  }
+	"contact": {
+		"homepage": "https://modrinth.com/mod/elytrakey/",
+		"sources": "https://github.com/Packsolite/elytrakey-fabric"
+	},
+	"license": "GPL-3.0-or-later",
+	"icon": "assets/elytrakey/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"de.liquiddev.elytrakey.ElytraKey"
+		],
+		"modmenu": [
+			"de.liquiddev.elytrakey.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"elytrakey.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.0",
+		"fabric": "*",
+		"minecraft": [
+			"1.21.6"
+		]
+	},
+	"suggests": {
+		"flamingo": "*"
+	}
 }
