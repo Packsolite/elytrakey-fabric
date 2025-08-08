@@ -13,13 +13,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult.Type;
 import org.lwjgl.glfw.GLFW;
-
-import static net.minecraft.text.Text.literal;
 
 public class ElytraKey implements ModInitializer {
 
@@ -200,7 +199,7 @@ public class ElytraKey implements ModInitializer {
 				int emptySlot = mc.player.getInventory().getEmptySlot();
 
 				if (emptySlot < 0) {
-					print("Inventory full!");
+					print("elytrakey.chat.full_inventory");
 				} else {
 					mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, 6, emptySlot,
 						SlotActionType.SWAP, mc.player);
@@ -210,7 +209,7 @@ public class ElytraKey implements ModInitializer {
 			boolean equipped = equipElytra();
 
 			if (!equipped) {
-				print("No Elytra found in main inventory.");
+				print("elytrakey.chat.no_elytra");
 			}
 		}
 	}
@@ -247,7 +246,9 @@ public class ElytraKey implements ModInitializer {
 		return -1;
 	}
 
-	public void print(String message) {
-		mc.player.sendMessage(literal(message), false);
+	public void print(String key) {
+		if (mc.player != null) {
+			mc.player.sendMessage(Text.translatable(key), false);
+		}
 	}
 }
