@@ -48,10 +48,11 @@ public class ElytraKey implements ModInitializer {
 	public void onInitialize() {
 		instance = this;
 		new ConfigLoader().loadConfig();
+		KeyBinding.Category cat = KeyBinding.Category.MISC;
 		swapElytraKeyBinding = KeyBindingHelper.registerKeyBinding(
-			new KeyBinding("Swap Elytra", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "key.categories.misc"));
+			new KeyBinding("Swap Elytra", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, cat));
 		elytraOptionsKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("ElytraKey Options",
-			InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_K, "key.categories.misc"));
+			InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_K, cat));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (swapElytraKeyBinding.wasPressed()) {

@@ -2,6 +2,7 @@ package de.liquiddev.elytrakey.ui;
 
 import de.liquiddev.elytrakey.ElytraKey;
 import de.liquiddev.elytrakey.options.ConfigLoader;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
@@ -93,8 +94,8 @@ public class ElytraKeyOptions extends Screen {
 	}
 
 	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		boolean b = super.mouseClicked(mouseX, mouseY, button);
+	public boolean mouseClicked(Click click, boolean doubled) {
+		boolean b = super.mouseClicked(click, doubled);
 		ElytraKey.AUTO_EQUIP_FALL = fallWidget.isChecked();
 		ElytraKey.AUTO_EQUIP_FIREWORKS = fireworkWidget.isChecked();
 		new ConfigLoader().saveConfig();
