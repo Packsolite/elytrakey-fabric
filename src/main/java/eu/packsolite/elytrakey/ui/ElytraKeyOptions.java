@@ -1,7 +1,7 @@
-package de.liquiddev.elytrakey.ui;
+package eu.packsolite.elytrakey.ui;
 
-import de.liquiddev.elytrakey.ElytraKey;
-import de.liquiddev.elytrakey.options.ConfigLoader;
+import eu.packsolite.elytrakey.ElytraKey;
+import eu.packsolite.elytrakey.options.ConfigLoader;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;

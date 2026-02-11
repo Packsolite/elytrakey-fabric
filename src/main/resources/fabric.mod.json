@@ -16,10 +16,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"de.liquiddev.elytrakey.ElytraKey"
+			"eu.packsolite.elytrakey.ElytraKey"
 		],
 		"modmenu": [
-			"de.liquiddev.elytrakey.ModMenuIntegration"
+			"eu.packsolite.elytrakey.ModMenuIntegration"
 		]
 	},
 	"mixins": [

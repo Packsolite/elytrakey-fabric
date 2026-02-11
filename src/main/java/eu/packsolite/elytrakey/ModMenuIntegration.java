@@ -1,8 +1,8 @@
-package de.liquiddev.elytrakey;
+package eu.packsolite.elytrakey;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import de.liquiddev.elytrakey.ui.ElytraKeyOptions;
+import eu.packsolite.elytrakey.ui.ElytraKeyOptions;
 
 public class ModMenuIntegration implements ModMenuApi {
 	@Override

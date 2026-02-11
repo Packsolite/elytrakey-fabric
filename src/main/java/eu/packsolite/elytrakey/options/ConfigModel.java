@@ -1,4 +1,4 @@
-package de.liquiddev.elytrakey.options;
+package eu.packsolite.elytrakey.options;
 
 public class ConfigModel {
 	public boolean autoEquipFall = true;

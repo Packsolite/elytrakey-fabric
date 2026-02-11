@@ -1,8 +1,8 @@
-package de.liquiddev.elytrakey.options;
+package eu.packsolite.elytrakey.options;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.liquiddev.elytrakey.ElytraKey;
+import eu.packsolite.elytrakey.ElytraKey;
 
 import java.io.File;
 import java.io.FileReader;

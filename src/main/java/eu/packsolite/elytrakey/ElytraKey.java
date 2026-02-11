@@ -1,7 +1,7 @@
-package de.liquiddev.elytrakey;
+package eu.packsolite.elytrakey;
 
-import de.liquiddev.elytrakey.options.ConfigLoader;
-import de.liquiddev.elytrakey.ui.ElytraKeyOptions;
+import eu.packsolite.elytrakey.options.ConfigLoader;
+import eu.packsolite.elytrakey.ui.ElytraKeyOptions;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
