@@ -5,11 +5,8 @@
 [![Fabric](https://img.shields.io/badge/Loader-Fabric-db2f2f)](https://fabricmc.net/)
 [![License](https://img.shields.io/badge/License-CC0--1.0-lightgrey)](LICENSE)
 
-**ElytraKey** is a small, client sided Fabric mod focused on making the Elytra more enjoyable through keybinds and
+ElytraKey is a small, client sided Fabric mod focused on making the Elytra more enjoyable through keybinds and
 lightweight automation.
-
-**Modrinth page:**  
-https://modrinth.com/mod/elytrakey
 
 ---
 
@@ -19,6 +16,9 @@ https://modrinth.com/mod/elytrakey
 - Optional auto-equip and auto-unequip on configurable events
 - Easy take-off support using fireworks
 - Localization support
+
+⚠️ **Note**: This mod may be considered an unfair advantage and may not be allowed on some multiplayer servers. Always
+refer to the server rules.
 
 ---
 
@@ -36,3 +36,10 @@ https://modrinth.com/mod/elytrakey
 
 ```bash
 ./gradlew build
+```
+
+### Or run in dev mode:
+
+```bash
+./gradlew runClient
+```
