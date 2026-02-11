@@ -35,6 +35,7 @@ public class ElytraKey implements ModInitializer {
 	public static boolean AUTO_EQUIP_FIREWORKS = false;
 	public static boolean AUTO_UNEQUIP = true;
 	public static boolean EASY_TAKEOFF = true;
+	public static double AUTO_EQUIP_FALL_VELOCITY;
 
 	private MinecraftClient mc = MinecraftClient.getInstance();
 
@@ -66,7 +67,7 @@ public class ElytraKey implements ModInitializer {
 
 			boolean fireworksInMainHand = mc.player.getInventory().getSelectedStack().getItem() == Items.FIREWORK_ROCKET;
 			boolean fireworksInOffHand = mc.player.getInventory().getStack(OFF_HAND_SLOT_ID).getItem() == Items.FIREWORK_ROCKET;
-			boolean isFalling = !mc.player.isOnGround() && mc.player.getVelocity().getY() < -0.65;
+			boolean isFalling = !mc.player.isOnGround() && mc.player.getVelocity().getY() < AUTO_EQUIP_FALL_VELOCITY;
 			boolean hasLanded = mc.player.isOnGround() || mc.player.isTouchingWater();
 
 			if ((AUTO_EQUIP_FIREWORKS && fireworksInMainHand) || (AUTO_EQUIP_FALL && isFalling)) {

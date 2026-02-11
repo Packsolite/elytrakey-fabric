@@ -35,6 +35,7 @@ public class ConfigLoader {
 		ElytraKey.AUTO_EQUIP_FIREWORKS = config.autoEquipFirework;
 		ElytraKey.AUTO_UNEQUIP = config.autoUnequip;
 		ElytraKey.EASY_TAKEOFF = config.easyTakeoff;
+		ElytraKey.AUTO_EQUIP_FALL_VELOCITY = config.autoEquipFallVelocity;
 	}
 
 	public void saveConfig() {
@@ -45,6 +46,7 @@ public class ConfigLoader {
 		config.autoEquipFirework = ElytraKey.AUTO_EQUIP_FIREWORKS;
 		config.autoUnequip = ElytraKey.AUTO_UNEQUIP;
 		config.easyTakeoff = ElytraKey.EASY_TAKEOFF;
+		config.autoEquipFallVelocity = ElytraKey.AUTO_EQUIP_FALL_VELOCITY;
 
 		File file = new File(configPath);
 
