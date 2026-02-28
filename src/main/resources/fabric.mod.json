@@ -26,12 +26,9 @@
 		"elytrakey.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.17.0",
-		"fabric": "*",
+		"fabricloader": ">=0.18.0",
 		"minecraft": [
-			"1.21.9",
-			"1.21.10",
-			"1.21.11"
+			"26.1-alpha.10"
 		]
 	},
 	"suggests": {

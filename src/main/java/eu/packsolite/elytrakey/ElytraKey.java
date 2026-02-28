@@ -1,10 +1,11 @@
 package eu.packsolite.elytrakey;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import eu.packsolite.elytrakey.options.ConfigLoader;
 import eu.packsolite.elytrakey.ui.ElytraKeyOptions;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
@@ -12,7 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -23,8 +24,6 @@ import org.lwjgl.glfw.GLFW;
 import java.util.List;
 
 import static net.minecraft.world.item.Items.*;
-
-import com.mojang.blaze3d.platform.InputConstants;
 
 public class ElytraKey implements ModInitializer {
 
@@ -51,8 +50,8 @@ public class ElytraKey implements ModInitializer {
 	public void onInitialize() {
 		new ConfigLoader().loadConfig();
 		KeyMapping.Category cat = KeyMapping.Category.register(Identifier.parse("elytrakey"));
-		swapElytraKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyMapping("Swap Elytra", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, cat));
-		elytraOptionsKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyMapping("ElytraKey Options", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, cat));
+		swapElytraKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("Swap Elytra", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, cat));
+		elytraOptionsKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("ElytraKey Options", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, cat));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (swapElytraKeyBinding.consumeClick()) {
 				swapElytra();
@@ -149,11 +148,11 @@ public class ElytraKey implements ModInitializer {
 			}
 
 			if (elytraSlot < 9) {
-				mc.gameMode.handleInventoryMouseClick(mc.player.inventoryMenu.containerId, 6, elytraSlot, ClickType.SWAP, mc.player);
+				mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, 6, elytraSlot, ContainerInput.SWAP, mc.player);
 			} else {
-				mc.gameMode.handleInventoryMouseClick(mc.player.inventoryMenu.containerId, elytraSlot, 0, ClickType.PICKUP, mc.player);
-				mc.gameMode.handleInventoryMouseClick(mc.player.inventoryMenu.containerId, 6, 0, ClickType.PICKUP, mc.player);
-				mc.gameMode.handleInventoryMouseClick(mc.player.inventoryMenu.containerId, elytraSlot, 0, ClickType.PICKUP, mc.player);
+				mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, elytraSlot, 0, ContainerInput.PICKUP, mc.player);
+				mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, 6, 0, ContainerInput.PICKUP, mc.player);
+				mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, elytraSlot, 0, ContainerInput.PICKUP, mc.player);
 			}
 		}
 		return true;
@@ -167,11 +166,11 @@ public class ElytraKey implements ModInitializer {
 		}
 
 		if (chestSlot < 9) {
-			mc.gameMode.handleInventoryMouseClick(mc.player.inventoryMenu.containerId, 6, chestSlot, ClickType.SWAP, mc.player);
+			mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, 6, chestSlot, ContainerInput.SWAP, mc.player);
 		} else {
-			mc.gameMode.handleInventoryMouseClick(mc.player.inventoryMenu.containerId, chestSlot, 0, ClickType.PICKUP, mc.player);
-			mc.gameMode.handleInventoryMouseClick(mc.player.inventoryMenu.containerId, 6, 0, ClickType.PICKUP, mc.player);
-			mc.gameMode.handleInventoryMouseClick(mc.player.inventoryMenu.containerId, chestSlot, 0, ClickType.PICKUP, mc.player);
+			mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, chestSlot, 0, ContainerInput.PICKUP, mc.player);
+			mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, 6, 0, ContainerInput.PICKUP, mc.player);
+			mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, chestSlot, 0, ContainerInput.PICKUP, mc.player);
 		}
 		return true;
 	}
@@ -187,8 +186,7 @@ public class ElytraKey implements ModInitializer {
 				if (emptySlot < 0) {
 					print("elytrakey.chat.full_inventory");
 				} else {
-					mc.gameMode.handleInventoryMouseClick(mc.player.inventoryMenu.containerId, 6, emptySlot,
-						ClickType.SWAP, mc.player);
+					mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, 6, emptySlot, ContainerInput.SWAP, mc.player);
 				}
 			}
 		} else {
@@ -223,7 +221,7 @@ public class ElytraKey implements ModInitializer {
 
 	public void print(String key) {
 		if (mc.player != null) {
-			mc.player.displayClientMessage(Component.translatable(key), false);
+			mc.player.sendOverlayMessage(Component.translatable(key));
 		}
 	}
 }
