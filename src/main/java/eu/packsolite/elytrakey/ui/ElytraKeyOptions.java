@@ -2,14 +2,15 @@ package eu.packsolite.elytrakey.ui;
 
 import eu.packsolite.elytrakey.ElytraKey;
 import eu.packsolite.elytrakey.options.ConfigLoader;
-import java.util.function.Supplier;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
+
+import java.util.function.Supplier;
 
 import static net.minecraft.network.chat.Component.literal;
 
@@ -85,11 +86,10 @@ public class ElytraKeyOptions extends Screen {
 	}
 
 	@Override
-	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-		super.render(context, mouseX, mouseY, delta);
-
-		context.drawCenteredString(font, title, width / 2, 15, -1);
-		context.drawCenteredString(font, autoEquipText, width / 2 - 10, height / 6 + yOffset + 30, -1);
+	public void extractRenderState(GuiGraphicsExtractor extractor, int mouseX, int mouseY, float delta) {
+		super.extractRenderState(extractor, mouseX, mouseY, delta);
+		extractor.centeredText(font, title, width / 2, 15, -1);
+		extractor.centeredText(font, autoEquipText, width / 2 - 10, height / 6 + yOffset + 30, -1);
 	}
 
 	@Override
