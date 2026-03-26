@@ -1,34 +1,34 @@
 package eu.packsolite.elytrakey;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import eu.packsolite.elytrakey.options.ConfigLoader;
 import eu.packsolite.elytrakey.ui.ElytraKeyOptions;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.text.Text;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult.Type;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.inventory.ContainerInput;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult.Type;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 
-import static net.minecraft.item.Items.*;
+import static net.minecraft.world.item.Items.*;
 
 public class ElytraKey implements ModInitializer {
 
 	private static final int OFF_HAND_SLOT_ID = 40;
-	private static final int CHEST_PLATE_SLOT_ID = EquipmentSlot.CHEST.getOffsetEntitySlotId(36);
+	private static final int CHEST_PLATE_SLOT_ID = EquipmentSlot.CHEST.getIndex(36);
 	private static final List<Item> CHESTPLATE_PRIORITY = List.of(NETHERITE_CHESTPLATE, DIAMOND_CHESTPLATE, IRON_CHESTPLATE, CHAINMAIL_CHESTPLATE, GOLDEN_CHESTPLATE, COPPER_CHESTPLATE, LEATHER_HELMET);
 
 	public static boolean AUTO_EQUIP_FALL = true;
@@ -37,10 +37,10 @@ public class ElytraKey implements ModInitializer {
 	public static boolean EASY_TAKEOFF = true;
 	public static double AUTO_EQUIP_FALL_VELOCITY;
 
-	private MinecraftClient mc = MinecraftClient.getInstance();
+	private Minecraft mc = Minecraft.getInstance();
 
-	private static KeyBinding swapElytraKeyBinding;
-	private static KeyBinding elytraOptionsKeyBinding;
+	private static KeyMapping swapElytraKeyBinding;
+	private static KeyMapping elytraOptionsKeyBinding;
 
 	private boolean wasAutoEquipped = false;
 	private boolean startFlying = false;
@@ -49,15 +49,15 @@ public class ElytraKey implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		new ConfigLoader().loadConfig();
-		KeyBinding.Category cat = KeyBinding.Category.create(Identifier.of("elytrakey"));
-		swapElytraKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("Swap Elytra", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, cat));
-		elytraOptionsKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("ElytraKey Options", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_K, cat));
+		KeyMapping.Category cat = KeyMapping.Category.register(Identifier.parse("elytrakey"));
+		swapElytraKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("Swap Elytra", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, cat));
+		elytraOptionsKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("ElytraKey Options", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, cat));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			while (swapElytraKeyBinding.wasPressed()) {
+			while (swapElytraKeyBinding.consumeClick()) {
 				swapElytra();
 			}
 
-			while (elytraOptionsKeyBinding.wasPressed()) {
+			while (elytraOptionsKeyBinding.consumeClick()) {
 				mc.setScreen(new ElytraKeyOptions());
 			}
 
@@ -65,10 +65,10 @@ public class ElytraKey implements ModInitializer {
 				return;
 			}
 
-			boolean fireworksInMainHand = mc.player.getInventory().getSelectedStack().getItem() == Items.FIREWORK_ROCKET;
-			boolean fireworksInOffHand = mc.player.getInventory().getStack(OFF_HAND_SLOT_ID).getItem() == Items.FIREWORK_ROCKET;
-			boolean isFalling = !mc.player.isOnGround() && mc.player.getVelocity().getY() < AUTO_EQUIP_FALL_VELOCITY;
-			boolean hasLanded = mc.player.isOnGround() || mc.player.isTouchingWater();
+			boolean fireworksInMainHand = mc.player.getInventory().getSelectedItem().getItem() == Items.FIREWORK_ROCKET;
+			boolean fireworksInOffHand = mc.player.getInventory().getItem(OFF_HAND_SLOT_ID).getItem() == Items.FIREWORK_ROCKET;
+			boolean isFalling = !mc.player.onGround() && mc.player.getDeltaMovement().y() < AUTO_EQUIP_FALL_VELOCITY;
+			boolean hasLanded = mc.player.onGround() || mc.player.isInWater();
 
 			if ((AUTO_EQUIP_FIREWORKS && fireworksInMainHand) || (AUTO_EQUIP_FALL && isFalling)) {
 				boolean elytraEquipped = isElytraEquipped();
@@ -86,30 +86,30 @@ public class ElytraKey implements ModInitializer {
 
 			// Equip elytra, start gliding and boost with fireworks when right-clicking with a firework
 			if (EASY_TAKEOFF && (fireworksInMainHand || fireworksInOffHand)) {
-				updateEasyTakeoff(fireworksInMainHand ? Hand.MAIN_HAND : Hand.OFF_HAND);
+				updateEasyTakeoff(fireworksInMainHand ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND);
 			}
 		});
 	}
 
-	private void updateEasyTakeoff(Hand fireworkHand) {
-		if (mc.player.isGliding()) {
+	private void updateEasyTakeoff(InteractionHand fireworkHand) {
+		if (mc.player.isFallFlying()) {
 			if (boostNextTick) {
 				boostNextTick = false;
-				mc.options.jumpKey.setPressed(false);
-				mc.interactionManager.interactItem(mc.player, fireworkHand);
-				mc.player.swingHand(Hand.MAIN_HAND);
+				mc.options.keyJump.setDown(false);
+				mc.gameMode.useItem(mc.player, fireworkHand);
+				mc.player.swing(InteractionHand.MAIN_HAND);
 			}
 		} else { // Not flying
 			if (startFlying) {
 				// Press space to switch to flying state
-				mc.options.jumpKey.setPressed(true);
+				mc.options.keyJump.setDown(true);
 				boostNextTick = true;
 				startFlying = false;
 
-			} else if (mc.options.useKey.isPressed()) {
+			} else if (mc.options.keyUse.isDown()) {
 
 				// Clicked with fireworks in air?
-				if (mc.crosshairTarget instanceof BlockHitResult && mc.crosshairTarget.getType() == Type.MISS) {
+				if (mc.hitResult instanceof BlockHitResult && mc.hitResult.getType() == Type.MISS) {
 
 					// Elytra already equipped?
 					if (!isElytraEquipped()) {
@@ -120,25 +120,25 @@ public class ElytraKey implements ModInitializer {
 					}
 
 					// Jump if on ground
-					if (mc.player.isOnGround()) {
-						mc.player.jump();
+					if (mc.player.onGround()) {
+						mc.player.jumpFromGround();
 					}
 
 					// Start takeoff
 					startFlying = true;
-					mc.options.jumpKey.setPressed(false);
+					mc.options.keyJump.setDown(false);
 				}
 			}
 		}
 	}
 
 	public boolean isElytraEquipped() {
-		ItemStack chestPlate = mc.player.getInventory().getStack(CHEST_PLATE_SLOT_ID);
+		ItemStack chestPlate = mc.player.getInventory().getItem(CHEST_PLATE_SLOT_ID);
 		return chestPlate.getItem() == Items.ELYTRA;
 	}
 
 	public boolean equipElytra() {
-		ItemStack chest = mc.player.getInventory().getStack(CHEST_PLATE_SLOT_ID);
+		ItemStack chest = mc.player.getInventory().getItem(CHEST_PLATE_SLOT_ID);
 
 		if (chest.getItem() != Items.ELYTRA) {
 			int elytraSlot = searchItem(Items.ELYTRA);
@@ -148,11 +148,11 @@ public class ElytraKey implements ModInitializer {
 			}
 
 			if (elytraSlot < 9) {
-				mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, 6, elytraSlot, SlotActionType.SWAP, mc.player);
+				mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, 6, elytraSlot, ContainerInput.SWAP, mc.player);
 			} else {
-				mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, elytraSlot, 0, SlotActionType.PICKUP, mc.player);
-				mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, 6, 0, SlotActionType.PICKUP, mc.player);
-				mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, elytraSlot, 0, SlotActionType.PICKUP, mc.player);
+				mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, elytraSlot, 0, ContainerInput.PICKUP, mc.player);
+				mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, 6, 0, ContainerInput.PICKUP, mc.player);
+				mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, elytraSlot, 0, ContainerInput.PICKUP, mc.player);
 			}
 		}
 		return true;
@@ -166,11 +166,11 @@ public class ElytraKey implements ModInitializer {
 		}
 
 		if (chestSlot < 9) {
-			mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, 6, chestSlot, SlotActionType.SWAP, mc.player);
+			mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, 6, chestSlot, ContainerInput.SWAP, mc.player);
 		} else {
-			mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, chestSlot, 0, SlotActionType.PICKUP, mc.player);
-			mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, 6, 0, SlotActionType.PICKUP, mc.player);
-			mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, chestSlot, 0, SlotActionType.PICKUP, mc.player);
+			mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, chestSlot, 0, ContainerInput.PICKUP, mc.player);
+			mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, 6, 0, ContainerInput.PICKUP, mc.player);
+			mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, chestSlot, 0, ContainerInput.PICKUP, mc.player);
 		}
 		return true;
 	}
@@ -181,13 +181,12 @@ public class ElytraKey implements ModInitializer {
 
 			// No chestplate found?
 			if (!equipped) {
-				int emptySlot = mc.player.getInventory().getEmptySlot();
+				int emptySlot = mc.player.getInventory().getFreeSlot();
 
 				if (emptySlot < 0) {
 					print("elytrakey.chat.full_inventory");
 				} else {
-					mc.interactionManager.clickSlot(mc.player.playerScreenHandler.syncId, 6, emptySlot,
-						SlotActionType.SWAP, mc.player);
+					mc.gameMode.handleContainerInput(mc.player.inventoryMenu.containerId, 6, emptySlot, ContainerInput.SWAP, mc.player);
 				}
 			}
 		} else {
@@ -211,7 +210,7 @@ public class ElytraKey implements ModInitializer {
 	}
 
 	private int searchItem(Item item) {
-		DefaultedList<ItemStack> container = mc.player.getInventory().getMainStacks();
+		NonNullList<ItemStack> container = mc.player.getInventory().getNonEquipmentItems();
 		for (int i = 0; i < container.size(); i++) {
 			if (container.get(i).getItem() == item) {
 				return i;
@@ -222,7 +221,7 @@ public class ElytraKey implements ModInitializer {
 
 	public void print(String key) {
 		if (mc.player != null) {
-			mc.player.sendMessage(Text.translatable(key), false);
+			mc.player.sendOverlayMessage(Component.translatable(key));
 		}
 	}
 }

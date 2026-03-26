@@ -2,27 +2,27 @@ package eu.packsolite.elytrakey.ui;
 
 import eu.packsolite.elytrakey.ElytraKey;
 import eu.packsolite.elytrakey.options.ConfigLoader;
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.CheckboxWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Checkbox;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.network.chat.Component;
 
 import java.util.function.Supplier;
 
-import static net.minecraft.text.Text.literal;
+import static net.minecraft.network.chat.Component.literal;
 
 public class ElytraKeyOptions extends Screen {
 
-	Text autoEquipText = literal("Automatically equip Elytra:");
-	Text easyTakeofTooltipText = literal(
+	Component autoEquipText = literal("Automatically equip Elytra:");
+	Component easyTakeofTooltipText = literal(
 		"Automatically jump, boost and equip Elytra when right clicking a firework.");
-	Text autoUnequipTooltipText = literal("Automatically switch back to chestplate when landing.");
+	Component autoUnequipTooltipText = literal("Automatically switch back to chestplate when landing.");
 
-	CheckboxWidget fallWidget;
-	CheckboxWidget fireworkWidget;
+	Checkbox fallWidget;
+	Checkbox fireworkWidget;
 
 	public ElytraKeyOptions() {
 		super(literal("ElytraKey options"));
@@ -31,18 +31,18 @@ public class ElytraKeyOptions extends Screen {
 	final int yOffset = 0;
 
 	public void init() {
-		this.addDrawableChild(fallWidget = CheckboxWidget.builder(
+		this.addRenderableWidget(fallWidget = Checkbox.builder(
 				literal("when falling"),
-				this.textRenderer)
+				this.font)
 			.pos(this.width / 2 - 75, this.height / 6 + yOffset + 40)
-			.checked(ElytraKey.AUTO_EQUIP_FALL)
+			.selected(ElytraKey.AUTO_EQUIP_FALL)
 			.build());
 
-		this.addDrawableChild(fireworkWidget = CheckboxWidget.builder(
+		this.addRenderableWidget(fireworkWidget = Checkbox.builder(
 				literal("when holding Firework"),
-				this.textRenderer)
+				this.font)
 			.pos(this.width / 2 - 75, this.height / 6 + yOffset + 60)
-			.checked(ElytraKey.AUTO_EQUIP_FIREWORKS)
+			.selected(ElytraKey.AUTO_EQUIP_FIREWORKS)
 			.build());
 
 		this.addEasyTakeoffButton();
@@ -50,54 +50,53 @@ public class ElytraKeyOptions extends Screen {
 	}
 
 	private void addEasyTakeoffButton() {
-		Supplier<Text> buttonText = () -> literal("Easy Take-off: " + (ElytraKey.EASY_TAKEOFF ? "On" : "Off"));
-		var tooltipText = Tooltip.of(easyTakeofTooltipText);
+		Supplier<Component> buttonText = () -> literal("Easy Take-off: " + (ElytraKey.EASY_TAKEOFF ? "On" : "Off"));
+		var tooltipText = Tooltip.create(easyTakeofTooltipText);
 
-		ButtonWidget.PressAction action = button -> {
+		Button.OnPress action = button -> {
 			ElytraKey.EASY_TAKEOFF = !ElytraKey.EASY_TAKEOFF;
 			button.setMessage(buttonText.get());
 		};
 
-		var button = ButtonWidget.builder(buttonText.get(), action)
-			.position(this.width / 2 - 75, this.height / 6 + yOffset)
+		var button = Button.builder(buttonText.get(), action)
+			.pos(this.width / 2 - 75, this.height / 6 + yOffset)
 			.size(150, 20)
 			.tooltip(tooltipText)
 			.build();
 
-		this.addDrawableChild(button);
+		this.addRenderableWidget(button);
 	}
 
 	private void addAutoUnequipButton() {
-		Supplier<Text> buttonText = () -> literal("Auto Unequip: " + (ElytraKey.AUTO_UNEQUIP ? "On" : "Off"));
-		var tooltipText = Tooltip.of(autoUnequipTooltipText);
+		Supplier<Component> buttonText = () -> literal("Auto Unequip: " + (ElytraKey.AUTO_UNEQUIP ? "On" : "Off"));
+		var tooltipText = Tooltip.create(autoUnequipTooltipText);
 
-		ButtonWidget.PressAction action = button -> {
+		Button.OnPress action = button -> {
 			ElytraKey.AUTO_UNEQUIP = !ElytraKey.AUTO_UNEQUIP;
 			button.setMessage(buttonText.get());
 		};
 
-		var button = ButtonWidget.builder(buttonText.get(), action)
-			.position(this.width / 2 - 75, this.height / 6 + yOffset + 90)
+		var button = Button.builder(buttonText.get(), action)
+			.pos(this.width / 2 - 75, this.height / 6 + yOffset + 90)
 			.size(150, 20)
 			.tooltip(tooltipText)
 			.build();
 
-		this.addDrawableChild(button);
+		this.addRenderableWidget(button);
 	}
 
 	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		super.render(context, mouseX, mouseY, delta);
-
-		context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 15, -1);
-		context.drawCenteredTextWithShadow(textRenderer, autoEquipText, width / 2 - 10, height / 6 + yOffset + 30, -1);
+	public void extractRenderState(GuiGraphicsExtractor extractor, int mouseX, int mouseY, float delta) {
+		super.extractRenderState(extractor, mouseX, mouseY, delta);
+		extractor.centeredText(font, title, width / 2, 15, -1);
+		extractor.centeredText(font, autoEquipText, width / 2 - 10, height / 6 + yOffset + 30, -1);
 	}
 
 	@Override
-	public boolean mouseClicked(Click click, boolean doubled) {
+	public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
 		boolean b = super.mouseClicked(click, doubled);
-		ElytraKey.AUTO_EQUIP_FALL = fallWidget.isChecked();
-		ElytraKey.AUTO_EQUIP_FIREWORKS = fireworkWidget.isChecked();
+		ElytraKey.AUTO_EQUIP_FALL = fallWidget.selected();
+		ElytraKey.AUTO_EQUIP_FIREWORKS = fireworkWidget.selected();
 		new ConfigLoader().saveConfig();
 		return b;
 	}
