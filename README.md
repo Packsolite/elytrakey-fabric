@@ -1,7 +1,7 @@
 # ElytraKey Mod
 
 [![Modrinth](https://img.shields.io/badge/Modrinth-ElytraKey-1bd96a?logo=modrinth&logoColor=white)](https://modrinth.com/mod/elytrakey)
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.19.4–1.21.x-62B47A)](https://www.minecraft.net/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-26.1-62B47A)](https://www.minecraft.net/)
 [![Fabric](https://img.shields.io/badge/Loader-Fabric-db2f2f)](https://fabricmc.net/)
 [![License](https://img.shields.io/badge/License-CC0--1.0-lightgrey)](LICENSE)
 
