@@ -58,7 +58,7 @@ public class ElytraKey implements ModInitializer {
 			}
 
 			while (elytraOptionsKeyBinding.consumeClick()) {
-				mc.setScreen(new ElytraKeyOptions());
+				mc.setScreenAndShow(new ElytraKeyOptions());
 			}
 
 			if (mc.player == null) {
