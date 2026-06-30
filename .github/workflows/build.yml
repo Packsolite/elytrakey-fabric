@@ -12,6 +12,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -23,9 +25,20 @@ jobs:
           name: artifacts
           path: build/libs/
       - if: startsWith(github.ref, 'refs/tags/')
+        id: vars
+        shell: bash
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          echo "version=$version" >> $GITHUB_OUTPUT
+          prev_tag=$(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)
+          git log --pretty=format:"- %s" "$prev_tag"..HEAD > changelog.md
+          echo "name=ElytraKey $version" >> $GITHUB_OUTPUT
+      - if: startsWith(github.ref, 'refs/tags/')
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-id: fu9WTMHc
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           modrinth-files: build/libs/!(*-@(dev|sources|javadoc)).jar
+          name: ${{ steps.vars.outputs.name }}
+          changelog-file: changelog.md
