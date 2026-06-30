@@ -1,40 +1,18 @@
-Update this Fabric mod to the latest (snapshot) versions from https://fabricmc.net/develop/.
+Update this Fabric mod to the latest versions. Fetch them from:
 
-Use the latest values for:
+- **Game:** `https://meta.fabricmc.net/v2/versions/game` — first entry is the latest
+- **Loader:** `https://meta.fabricmc.net/v2/versions/loader` — first `"stable": true` entry
+- **Fabric API:** `https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/maven-metadata.xml` — `<latest>` tag
+- **Loom:** `https://maven.fabricmc.net/net/fabricmc/fabric-loom/maven-metadata.xml` — `<release>` tag
 
-* minecraft_version
-* loader_version
-* loom_version
-* fabric_api_version
+Update `gradle.properties` with these values. Update `fabric.mod.json`'s "minecraft" dependency to `~<minecraft_version>`.
 
-Update `gradle.properties` with these values. Also update `fabric.mod.json` with the same `minecraft_version` from `gradle.properties`.
+Then:
 
-**IMPORTANT: The minecraft version in `gradle.properties` (e.g. `26.3-snapshot-1`) may differ from the actual runtime version of the game (e.g. `26.3-alpha.1`). You must verify and correct this.**
+1. `./gradlew build` — fix compilation errors until it succeeds.
+2. `./gradlew runClient` — limit command to 20s so it auto-terminates. If it fails with a version mismatch, parse the actual version from the error, fix `fabric.mod.json`, and re-run.
+3. If it succeeds, you're done.
 
-Then run:
+Do not modify unrelated code.
 
-```sh
-./gradlew build
-```
-
-If the build fails, fix the code until it succeeds. Update imports, Fabric API usage, and other Minecraft API changes as necessary. Make only the minimal changes required for compatibility.
-
-**After `build` succeeds, verify the mod actually loads at runtime:**
-
-```sh
-./gradlew runClient
-```
-
-Terminate the process after a few seconds once it's clear the game started (look for "Setting user:" or the game window appearing).
-
-- If `runClient` fails with a mod resolution error mentioning an incompatible Minecraft version, parse the actual Minecraft version from the error message (e.g. `26.3-alpha.1`) and update the `"minecraft"` dependency in `fabric.mod.json` to match that actual version. Then re-run `runClient` to confirm it starts.
-- If `runClient` fails for any other reason, fix the issue and re-run until it succeeds.
-
-Do not modify unrelated code or introduce new dependencies unless required by the Fabric update.
-
-When finished, summarize:
-
-* the version changes
-* the files modified
-* any code changes made
-* whether the build and runtime verification succeeded
+Summarize version changes, files modified, and whether both build and runClient succeeded.
