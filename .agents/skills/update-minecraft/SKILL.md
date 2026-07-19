@@ -10,7 +10,7 @@ Update this Fabric mod to the latest minecraft and fabric versions. Fetch them f
 - **Fabric API:** `https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/maven-metadata.xml` — `<latest>` tag
 - **Loom:** `https://maven.fabricmc.net/net/fabricmc/fabric-loom/maven-metadata.xml` — `<release>` tag
 
-Update `gradle.properties` with these values. Update `fabric.mod.json`'s "minecraft" dependency to
+Update `gradle.properties` with these values. Update `src/main/resources/fabric.mod.json`'s "minecraft" dependency to
 `~<minecraft_version>`.
 
 Then:
