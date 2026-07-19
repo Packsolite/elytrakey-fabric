@@ -3,7 +3,7 @@ name: update-minecraft
 description: Update this Fabric mod to the latest Minecraft, Fabric Loader, Fabric API, and Loom versions
 ---
 
-Update this Fabric mod to the latest fabric versions. Fetch them from:
+Update this Fabric mod to the latest minecraft and fabric versions. Fetch them from:
 
 - **Game:** `https://meta.fabricmc.net/v2/versions/game` — first entry is the latest
 - **Loader:** `https://meta.fabricmc.net/v2/versions/loader` — first `"stable": true` entry
