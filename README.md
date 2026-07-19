@@ -49,7 +49,7 @@ refer to the server rules.
 ## Automated Minecraft Version Update
 
 ```bash
-opencode run "$(cat automation/prompts/update-minecraft.md)"
+opencode update-minecraft
 ```
 
 This invokes an agentic process that updates all version references to the latest snapshot, fixes any breaking changes, and verifies the mod compiles and starts correctly.
