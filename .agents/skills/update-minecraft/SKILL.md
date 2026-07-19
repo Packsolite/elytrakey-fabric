@@ -2,20 +2,24 @@
 name: update-minecraft
 description: Update this Fabric mod to the latest Minecraft, Fabric Loader, Fabric API, and Loom versions
 ---
-## What this does
 
-Fetches the latest versions from Fabric's metadata APIs, updates `gradle.properties` and `fabric.mod.json`, then builds and runs the client to verify.
+Update this Fabric mod to the latest fabric versions. Fetch them from:
 
-## Instructions
+- **Game:** `https://meta.fabricmc.net/v2/versions/game` — first entry is the latest
+- **Loader:** `https://meta.fabricmc.net/v2/versions/loader` — first `"stable": true` entry
+- **Fabric API:** `https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/maven-metadata.xml` — `<latest>` tag
+- **Loom:** `https://maven.fabricmc.net/net/fabricmc/fabric-loom/maven-metadata.xml` — `<release>` tag
 
-1. Fetch **game version** from `https://meta.fabricmc.net/v2/versions/game` — use the first entry
-2. Fetch **loader version** from `https://meta.fabricmc.net/v2/versions/loader` — use the first `"stable": true` entry
-3. Fetch **Fabric API** from `https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/maven-metadata.xml` — use the `<latest>` tag
-4. Fetch **Loom** from `https://maven.fabricmc.net/net/fabricmc/fabric-loom/maven-metadata.xml` — use the `<release>` tag
-5. Update `gradle.properties` with these values
-6. Update `fabric.mod.json`'s `"minecraft"` dependency to `~<version>`
-7. Run `.\gradlew build --no-daemon`, fix compilation errors until it succeeds
-8. Run `.\gradlew runClient --no-daemon` with a 60s timeout. If it fails with a version mismatch, parse the actual version from the error, fix `fabric.mod.json`, and re-run
-9. Summarize version changes, files modified, and whether build/runClient succeeded
+Update `gradle.properties` with these values. Update `fabric.mod.json`'s "minecraft" dependency to
+`~<minecraft_version>`.
 
-Do not modify unrelated code.
+Then:
+
+1. `./gradlew build --no-daemon` — fix compilation errors until it succeeds.
+2. `./gradlew runClient --no-daemon` — limit command to 20s so it auto-terminates. If it fails with a version mismatch,
+   parse the actual version from the error, fix `fabric.mod.json`, and re-run.
+3. If it succeeds, you're done.
+
+Do not modify unrelated code. Keep the diff minimal.
+
+Summarize version changes, files modified, and whether both build and runClient succeeded.
