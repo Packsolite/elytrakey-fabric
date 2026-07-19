@@ -19,7 +19,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 
@@ -50,8 +49,8 @@ public class ElytraKey implements ModInitializer {
 	public void onInitialize() {
 		new ConfigLoader().loadConfig();
 		KeyMapping.Category cat = KeyMapping.Category.register(Identifier.parse("elytrakey"));
-		swapElytraKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("Swap Elytra", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, cat));
-		elytraOptionsKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("ElytraKey Options", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, cat));
+		swapElytraKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("Swap Elytra", InputConstants.Type.KEYBOARD, InputConstants.KEY_R, cat));
+		elytraOptionsKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("ElytraKey Options", InputConstants.Type.KEYBOARD, InputConstants.KEY_K, cat));
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (swapElytraKeyBinding.consumeClick()) {
 				swapElytra();
