@@ -29,6 +29,11 @@ error and fix `fabric.mod.json`.
   hardcode a version there.
 - Built jar name includes the MC version: `elytrakey-fabric-mc<version>-<mod_version>.jar`.
 
+## Publishing
+
+Tag `v<mod_version>-mc<minecraft_version>` and push — the workflow builds,
+creates a GitHub Release with auto-generated changelog, and publishes to Modrinth.
+
 ## Structure
 
 - Entrypoint: `eu.packsolite.elytrakey.ElytraKey` (`ModInitializer`, registered in `fabric.mod.json`); all game logic
