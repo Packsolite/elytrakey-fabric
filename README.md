@@ -53,4 +53,5 @@ refer to the server rules.
 opencode update-minecraft
 ```
 
-This invokes an agentic process that updates all version references to the latest snapshot, fixes any breaking changes, and verifies the mod compiles and starts correctly.
+This invokes an agentic process that updates all version references to the latest snapshot, fixes any breaking changes,
+and verifies the mod compiles and starts correctly.

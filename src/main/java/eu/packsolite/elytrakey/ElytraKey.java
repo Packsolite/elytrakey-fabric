@@ -47,7 +47,7 @@ public class ElytraKey implements ModInitializer {
 
 	private void tick() {
 		if (mc.player == null) return;
-		
+
 		while (swapElytraKeyBinding.consumeClick()) {
 			InventoryHelper.swapElytra();
 		}
