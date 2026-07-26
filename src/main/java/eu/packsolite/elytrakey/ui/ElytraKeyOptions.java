@@ -35,14 +35,14 @@ public class ElytraKeyOptions extends Screen {
 				literal("when falling"),
 				this.font)
 			.pos(this.width / 2 - 75, this.height / 6 + yOffset + 40)
-			.selected(ElytraKey.AUTO_EQUIP_FALL)
+			.selected(ElytraKey.CONFIG.autoEquipFall)
 			.build());
 
 		this.addRenderableWidget(fireworkWidget = Checkbox.builder(
 				literal("when holding Firework"),
 				this.font)
 			.pos(this.width / 2 - 75, this.height / 6 + yOffset + 60)
-			.selected(ElytraKey.AUTO_EQUIP_FIREWORKS)
+			.selected(ElytraKey.CONFIG.autoEquipFirework)
 			.build());
 
 		this.addEasyTakeoffButton();
@@ -50,11 +50,11 @@ public class ElytraKeyOptions extends Screen {
 	}
 
 	private void addEasyTakeoffButton() {
-		Supplier<Component> buttonText = () -> literal("Easy Take-off: " + (ElytraKey.EASY_TAKEOFF ? "On" : "Off"));
+		Supplier<Component> buttonText = () -> literal("Easy Take-off: " + (ElytraKey.CONFIG.easyTakeoff ? "On" : "Off"));
 		var tooltipText = Tooltip.create(easyTakeofTooltipText);
 
 		Button.OnPress action = button -> {
-			ElytraKey.EASY_TAKEOFF = !ElytraKey.EASY_TAKEOFF;
+			ElytraKey.CONFIG.easyTakeoff = !ElytraKey.CONFIG.easyTakeoff;
 			button.setMessage(buttonText.get());
 		};
 
@@ -68,11 +68,11 @@ public class ElytraKeyOptions extends Screen {
 	}
 
 	private void addAutoUnequipButton() {
-		Supplier<Component> buttonText = () -> literal("Auto Unequip: " + (ElytraKey.AUTO_UNEQUIP ? "On" : "Off"));
+		Supplier<Component> buttonText = () -> literal("Auto Unequip: " + (ElytraKey.CONFIG.autoUnequip ? "On" : "Off"));
 		var tooltipText = Tooltip.create(autoUnequipTooltipText);
 
 		Button.OnPress action = button -> {
-			ElytraKey.AUTO_UNEQUIP = !ElytraKey.AUTO_UNEQUIP;
+			ElytraKey.CONFIG.autoUnequip = !ElytraKey.CONFIG.autoUnequip;
 			button.setMessage(buttonText.get());
 		};
 
@@ -95,9 +95,9 @@ public class ElytraKeyOptions extends Screen {
 	@Override
 	public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
 		boolean b = super.mouseClicked(click, doubled);
-		ElytraKey.AUTO_EQUIP_FALL = fallWidget.selected();
-		ElytraKey.AUTO_EQUIP_FIREWORKS = fireworkWidget.selected();
-		new ConfigLoader().saveConfig();
+		ElytraKey.CONFIG.autoEquipFall = fallWidget.selected();
+		ElytraKey.CONFIG.autoEquipFirework = fireworkWidget.selected();
+		new ConfigLoader().saveConfig(ElytraKey.CONFIG);
 		return b;
 	}
 }

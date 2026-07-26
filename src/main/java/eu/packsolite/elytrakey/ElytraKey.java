@@ -2,7 +2,9 @@ package eu.packsolite.elytrakey;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import eu.packsolite.elytrakey.options.ConfigLoader;
+import eu.packsolite.elytrakey.options.ConfigModel;
 import eu.packsolite.elytrakey.ui.ElytraKeyOptions;
+import eu.packsolite.elytrakey.util.InventoryHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
@@ -18,11 +20,7 @@ public class ElytraKey implements ModInitializer {
 
 	private static final int OFF_HAND_SLOT_ID = 40;
 
-	public static boolean AUTO_EQUIP_FALL = true;
-	public static boolean AUTO_EQUIP_FIREWORKS = false;
-	public static boolean AUTO_UNEQUIP = true;
-	public static boolean EASY_TAKEOFF = true;
-	public static double AUTO_EQUIP_FALL_VELOCITY;
+	public static ConfigModel CONFIG;
 
 	private final Minecraft mc = Minecraft.getInstance();
 
@@ -35,7 +33,7 @@ public class ElytraKey implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		new ConfigLoader().loadConfig();
+		CONFIG = new ConfigLoader().loadConfig();
 		KeyMapping.Category cat = KeyMapping.Category.register(Identifier.parse("elytrakey"));
 		swapElytraKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("Swap Elytra", InputConstants.Type.KEYBOARD, InputConstants.KEY_R, cat));
 		elytraOptionsKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("ElytraKey Options", InputConstants.Type.KEYBOARD, InputConstants.KEY_K, cat));
@@ -57,23 +55,23 @@ public class ElytraKey implements ModInitializer {
 
 		boolean fireworksInMainHand = mc.player.getInventory().getSelectedItem().getItem() == Items.FIREWORK_ROCKET;
 		boolean fireworksInOffHand = mc.player.getInventory().getItem(OFF_HAND_SLOT_ID).getItem() == Items.FIREWORK_ROCKET;
-		boolean isFalling = !mc.player.onGround() && mc.player.getDeltaMovement().y() < AUTO_EQUIP_FALL_VELOCITY;
+		boolean isFalling = !mc.player.onGround() && mc.player.getDeltaMovement().y() < CONFIG.autoEquipFallVelocity;
 		boolean hasLanded = mc.player.onGround() || mc.player.isInWater();
 
-		if ((AUTO_EQUIP_FIREWORKS && fireworksInMainHand) || (AUTO_EQUIP_FALL && isFalling)) {
+		if ((CONFIG.autoEquipFirework && fireworksInMainHand) || (CONFIG.autoEquipFall && isFalling)) {
 			if (!InventoryHelper.isElytraEquipped(mc)) {
 				InventoryHelper.equipElytra(mc);
 				wasAutoEquipped = true;
 			}
 		} else {
-			boolean unEquip = AUTO_UNEQUIP && wasAutoEquipped && hasLanded;
+			boolean unEquip = CONFIG.autoUnequip && wasAutoEquipped && hasLanded;
 			if (unEquip && InventoryHelper.isElytraEquipped(mc)) {
 				wasAutoEquipped = false;
 				InventoryHelper.equipChestplate(mc);
 			}
 		}
 
-		if (EASY_TAKEOFF && (fireworksInMainHand || fireworksInOffHand)) {
+		if (CONFIG.easyTakeoff && (fireworksInMainHand || fireworksInOffHand)) {
 			updateEasyTakeoff(fireworksInMainHand ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND);
 		}
 	}
