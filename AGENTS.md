@@ -26,6 +26,8 @@ error and fix `fabric.mod.json`.
 - `mod_version` in `gradle.properties` is expanded into `fabric.mod.json` at build time via `processResources` — don't
   hardcode a version there.
 - Built jar name includes the MC version: `elytrakey-fabric-mc<version>-<mod_version>.jar`.
+- Lombok is a `compileOnly` + `annotationProcessor` dependency; use `@Slf4j(topic = "elytrakey")` for logging,
+  `@With` for immutable mutation on records, and `@Getter`/`@Setter` for encapsulated fields.
 
 ## Publishing
 
@@ -34,8 +36,18 @@ creates a GitHub Release with auto-generated changelog, and publishes to Modrint
 
 ## Structure
 
-- Entrypoint: `eu.packsolite.elytrakey.ElytraKey` (`ModInitializer`, registered in `fabric.mod.json`); all game logic
-  lives in this one class.
-- `options/` — config model + JSON loader; `ui/` — options screen; `ModMenuIntegration` — optional ModMenu hook.
+- Entrypoint: `eu.packsolite.elytrakey.ElytraKey` (`ModInitializer`, registered in `fabric.mod.json`); handles
+  initialization, keybind registration, tick orchestration, and the easy-takeoff state machine.
+- `util/InventoryHelper` — all inventory operations (equip/swap/search/score chestplates).
+- `options/` — `ConfigModel` (`@With` record, immutable) + `ConfigLoader` (Gson, returns/takes `ConfigModel` directly).
+- `ui/` — `ElytraKeyOptions` (options screen, mutates config via `withX()`).
+- `ModConstants` — shared constants (`MOD_ID`).
+- `ModMenuIntegration` — optional ModMenu hook.
 - `elytrakey.mixins.json` exists but defines no mixins; add mixin classes under `eu.packsolite.elytrakey.mixin` if ever
   needed.
+
+### Chestplate scoring
+
+`InventoryHelper.scoreChestplate(ItemStack)` evaluates chestplates by reading their baked-in attribute modifiers
+(`DataComponents.ATTRIBUTE_MODIFIERS`) and enchantments (`DataComponents.ENCHANTMENTS`). Score formula:
+`armor × 1000 + toughness × 100 + totalEnchantmentLevels`. This replaces the old hardcoded priority list.
