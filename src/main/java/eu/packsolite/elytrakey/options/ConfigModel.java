@@ -1,9 +1,14 @@
 package eu.packsolite.elytrakey.options;
 
-public class ConfigModel {
-	public boolean autoEquipFall = true;
-	public double autoEquipFallVelocity = -0.65;
-	public boolean easyTakeoff = true;
-	public boolean autoEquipFirework = false;
-	public boolean autoUnequip = true;
+import lombok.With;
+
+@With
+public record ConfigModel(
+	boolean autoEquipFall,
+	double autoEquipFallVelocity,
+	boolean easyTakeoff,
+	boolean autoEquipFirework,
+	boolean autoUnequip
+) {
+	public static final ConfigModel DEFAULT = new ConfigModel(true, -0.65, true, false, true);
 }

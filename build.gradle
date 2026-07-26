@@ -35,6 +35,10 @@ dependencies {
 
 	// ModMenu
 	compileOnly("com.terraformersmc:modmenu:${project.modmenu_version}")
+
+	// Lombok
+	compileOnly 'org.projectlombok:lombok:1.18.38'
+	annotationProcessor 'org.projectlombok:lombok:1.18.38'
 }
 
 processResources {

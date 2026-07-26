@@ -14,12 +14,12 @@ public class ConfigLoader {
 	private final File file = new File("config/elytrakey.json");
 
 	public ConfigModel loadConfig() {
-		if (!file.exists()) return new ConfigModel();
+		if (!file.exists()) return ConfigModel.DEFAULT;
 		try (FileReader fr = new FileReader(file)) {
 			ConfigModel config = gson.fromJson(fr, ConfigModel.class);
-			return config != null ? config : new ConfigModel();
+			return config != null ? config : ConfigModel.DEFAULT;
 		} catch (IOException ex) {
-			return new ConfigModel();
+			return ConfigModel.DEFAULT;
 		}
 	}
 

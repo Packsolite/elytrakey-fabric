@@ -1,4 +1,4 @@
-package eu.packsolite.elytrakey;
+package eu.packsolite.elytrakey.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
@@ -106,7 +106,7 @@ public class InventoryHelper {
 			}
 		}
 
-		return (int)(armor * 1000 + toughness * 100 + enchantLevels);
+		return (int) (armor * 1000 + toughness * 100 + enchantLevels);
 	}
 
 	private static int searchItem(Minecraft mc, Item item) {
