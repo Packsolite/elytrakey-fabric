@@ -15,7 +15,6 @@ lightweight automation.
 - Keybind to swap between Elytra and chestplate (Default: R)
 - Optional auto-equip and auto-unequip on configurable events
 - Easy take-off support using fireworks
-- Chestplate scoring — automatically picks the best chestplate by armor, toughness, and enchantments
 - Localization support
 
 ⚠️ **Note**: This mod may be considered an unfair advantage and may not be allowed on some multiplayer servers. Always
