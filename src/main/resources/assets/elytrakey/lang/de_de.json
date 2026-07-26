@@ -1,5 +1,15 @@
 {
 	"key.category.minecraft.elytrakey": "ElytraKey",
-	"elytrakey.chat.no_elytra": "Elytra wurde nicht im Inventar gefunden",
-	"elytrakey.chat.full_inventory": "Inventar ist voll"
+	"elytrakey.chat.no_elytra": "Kein Elytra im Inventar",
+	"elytrakey.chat.full_inventory": "Inventar ist voll",
+	"key.elytrakey.swap": "Elytra wechseln",
+	"key.elytrakey.options": "ElytraKey-Optionen",
+	"elytrakey.options.title": "ElytraKey-Optionen",
+	"elytrakey.options.auto_equip": "Elytra automatisch anlegen:",
+	"elytrakey.options.when_falling": "beim Fallen",
+	"elytrakey.options.when_firework": "wenn Feuerwerk in der Hand",
+	"elytrakey.options.easy_takeoff": "Easy Take-off: %s",
+	"elytrakey.options.auto_unequip": "Auto Unequip: %s",
+	"elytrakey.options.tooltip.easy_takeoff": "Springt, boostet und rüstet das Elytra automatisch mit einem Rechtsklick auf eine Feuerwerksrakete aus.",
+	"elytrakey.options.tooltip.auto_unequip": "Wechselt bei der Landung automatisch zur Brustplatte zurück."
 }

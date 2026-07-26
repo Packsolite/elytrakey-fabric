@@ -1,5 +1,15 @@
 {
 	"key.category.minecraft.elytrakey": "ElytraKey",
 	"elytrakey.chat.no_elytra": "No se ha encontrado ninguna élitra en el inventario",
-	"elytrakey.chat.full_inventory": "El inventario está lleno"
+	"elytrakey.chat.full_inventory": "El inventario está lleno",
+	"key.elytrakey.swap": "Intercambiar élitra",
+	"key.elytrakey.options": "Opciones de ElytraKey",
+	"elytrakey.options.title": "Opciones de ElytraKey",
+	"elytrakey.options.auto_equip": "Equipar élitra automáticamente:",
+	"elytrakey.options.when_falling": "al caer",
+	"elytrakey.options.when_firework": "al sostener un fuego artificial",
+	"elytrakey.options.easy_takeoff": "Easy Take-off: %s",
+	"elytrakey.options.auto_unequip": "Auto Unequip: %s",
+	"elytrakey.options.tooltip.easy_takeoff": "Salta, impulsa y equipa la élitra automáticamente al usar un fuego artificial.",
+	"elytrakey.options.tooltip.auto_unequip": "Vuelve a equipar el peto automáticamente al aterrizar."
 }

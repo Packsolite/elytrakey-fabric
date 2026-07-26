@@ -12,34 +12,31 @@ import net.minecraft.network.chat.Component;
 
 import java.util.function.Supplier;
 
-import static net.minecraft.network.chat.Component.literal;
-
 public class ElytraKeyOptions extends Screen {
 
-	Component autoEquipText = literal("Automatically equip Elytra:");
-	Component easyTakeofTooltipText = literal(
-		"Automatically jump, boost and equip Elytra when right clicking a firework.");
-	Component autoUnequipTooltipText = literal("Automatically switch back to chestplate when landing.");
+	Component autoEquipText = Component.translatable("elytrakey.options.auto_equip");
+	Component easyTakeofTooltipText = Component.translatable("elytrakey.options.tooltip.easy_takeoff");
+	Component autoUnequipTooltipText = Component.translatable("elytrakey.options.tooltip.auto_unequip");
 
 	Checkbox fallWidget;
 	Checkbox fireworkWidget;
 
 	public ElytraKeyOptions() {
-		super(literal("ElytraKey options"));
+		super(Component.translatable("elytrakey.options.title"));
 	}
 
 	final int yOffset = 0;
 
 	public void init() {
 		this.addRenderableWidget(fallWidget = Checkbox.builder(
-				literal("when falling"),
+				Component.translatable("elytrakey.options.when_falling"),
 				this.font)
 			.pos(this.width / 2 - 75, this.height / 6 + yOffset + 40)
 			.selected(ElytraKey.getConfig().autoEquipFall())
 			.build());
 
 		this.addRenderableWidget(fireworkWidget = Checkbox.builder(
-				literal("when holding Firework"),
+				Component.translatable("elytrakey.options.when_firework"),
 				this.font)
 			.pos(this.width / 2 - 75, this.height / 6 + yOffset + 60)
 			.selected(ElytraKey.getConfig().autoEquipFirework())
@@ -50,7 +47,11 @@ public class ElytraKeyOptions extends Screen {
 	}
 
 	private void addEasyTakeoffButton() {
-		Supplier<Component> buttonText = () -> literal("Easy Take-off: " + (ElytraKey.getConfig().easyTakeoff() ? "On" : "Off"));
+		Supplier<Component> buttonText = () -> Component.translatable(
+			"elytrakey.options.easy_takeoff",
+			ElytraKey.getConfig().easyTakeoff()
+				? Component.translatable("options.on")
+				: Component.translatable("options.off"));
 		var tooltipText = Tooltip.create(easyTakeofTooltipText);
 
 		Button.OnPress action = button -> {
@@ -68,7 +69,11 @@ public class ElytraKeyOptions extends Screen {
 	}
 
 	private void addAutoUnequipButton() {
-		Supplier<Component> buttonText = () -> literal("Auto Unequip: " + (ElytraKey.getConfig().autoUnequip() ? "On" : "Off"));
+		Supplier<Component> buttonText = () -> Component.translatable(
+			"elytrakey.options.auto_unequip",
+			ElytraKey.getConfig().autoUnequip()
+				? Component.translatable("options.on")
+				: Component.translatable("options.off"));
 		var tooltipText = Tooltip.create(autoUnequipTooltipText);
 
 		Button.OnPress action = button -> {

@@ -39,8 +39,8 @@ public class ElytraKey implements ModInitializer {
 	public void onInitialize() {
 		config = new ConfigLoader().loadConfig();
 		KeyMapping.Category cat = KeyMapping.Category.register(Identifier.parse(MOD_ID));
-		swapElytraKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("Swap Elytra", InputConstants.Type.KEYBOARD, InputConstants.KEY_R, cat));
-		elytraOptionsKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("ElytraKey Options", InputConstants.Type.KEYBOARD, InputConstants.KEY_K, cat));
+		swapElytraKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("key.elytrakey.swap", InputConstants.Type.KEYBOARD, InputConstants.KEY_R, cat));
+		elytraOptionsKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("key.elytrakey.options", InputConstants.Type.KEYBOARD, InputConstants.KEY_K, cat));
 		ClientTickEvents.END_CLIENT_TICK.register(_ -> tick());
 		log.info("Initialized");
 	}

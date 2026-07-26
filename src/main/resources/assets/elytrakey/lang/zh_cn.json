@@ -1,5 +1,15 @@
 {
 	"key.category.minecraft.elytrakey": "鞘翅钥匙",
 	"elytrakey.chat.no_elytra": "物品栏里没有鞘翅",
-	"elytrakey.chat.full_inventory": "物品栏已满"
+	"elytrakey.chat.full_inventory": "物品栏已满",
+	"key.elytrakey.swap": "切换鞘翅",
+	"key.elytrakey.options": "鞘翅按键设置",
+	"elytrakey.options.title": "鞘翅按键设置",
+	"elytrakey.options.auto_equip": "自动装备鞘翅：",
+	"elytrakey.options.when_falling": "坠落时",
+	"elytrakey.options.when_firework": "手持烟花时",
+	"elytrakey.options.easy_takeoff": "Easy Take-off: %s",
+	"elytrakey.options.auto_unequip": "Auto Unequip: %s",
+	"elytrakey.options.tooltip.easy_takeoff": "使用烟花时自动跳跃、助推并装备鞘翅。",
+	"elytrakey.options.tooltip.auto_unequip": "着陆时自动切换回胸甲。"
 }

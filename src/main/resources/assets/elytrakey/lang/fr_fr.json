@@ -1,5 +1,15 @@
 {
 	"key.category.minecraft.elytrakey": "ElytraKey",
 	"elytrakey.chat.no_elytra": "Aucune élytre trouvée dans l’inventaire",
-	"elytrakey.chat.full_inventory": "L’inventaire est plein"
+	"elytrakey.chat.full_inventory": "L’inventaire est plein",
+	"key.elytrakey.swap": "Échanger l'élytre",
+	"key.elytrakey.options": "Options d'ElytraKey",
+	"elytrakey.options.title": "Options d'ElytraKey",
+	"elytrakey.options.auto_equip": "Équiper l'élytre automatiquement :",
+	"elytrakey.options.when_falling": "en tombant",
+	"elytrakey.options.when_firework": "en tenant un feu d'artifice",
+	"elytrakey.options.easy_takeoff": "Easy Take-off : %s",
+	"elytrakey.options.auto_unequip": "Auto Unequip : %s",
+	"elytrakey.options.tooltip.easy_takeoff": "Saute, booste et équipe automatiquement l'élytre en utilisant un feu d'artifice.",
+	"elytrakey.options.tooltip.auto_unequip": "Repasser automatiquement au plastron lors de l'atterrissage."
 }

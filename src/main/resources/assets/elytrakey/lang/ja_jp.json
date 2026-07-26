@@ -1,5 +1,15 @@
 {
 	"key.category.minecraft.elytrakey": "エリトラキー",
 	"elytrakey.chat.no_elytra": "インベントリにエリトラがありません",
-	"elytrakey.chat.full_inventory": "インベントリがいっぱいです"
+	"elytrakey.chat.full_inventory": "インベントリがいっぱいです",
+	"key.elytrakey.swap": "エリトラを切り替え",
+	"key.elytrakey.options": "エリトラキー設定",
+	"elytrakey.options.title": "エリトラキー設定",
+	"elytrakey.options.auto_equip": "エリトラを自動装備：",
+	"elytrakey.options.when_falling": "落下時",
+	"elytrakey.options.when_firework": "花火を持っている時",
+	"elytrakey.options.easy_takeoff": "Easy Take-off: %s",
+	"elytrakey.options.auto_unequip": "Auto Unequip: %s",
+	"elytrakey.options.tooltip.easy_takeoff": "花火を右クリックした時に、自動でジャンプ、加速、エリトラ装備を行います。",
+	"elytrakey.options.tooltip.auto_unequip": "着地時に自動でチェストプレートに戻します。"
 }

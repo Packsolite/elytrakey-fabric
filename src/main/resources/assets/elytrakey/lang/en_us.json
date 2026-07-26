@@ -1,5 +1,15 @@
 {
 	"key.category.minecraft.elytrakey": "ElytraKey",
 	"elytrakey.chat.no_elytra": "No Elytra found in main inventory",
-	"elytrakey.chat.full_inventory": "Inventory is full"
+	"elytrakey.chat.full_inventory": "Inventory is full",
+	"key.elytrakey.swap": "Swap Elytra",
+	"key.elytrakey.options": "ElytraKey Options",
+	"elytrakey.options.title": "ElytraKey options",
+	"elytrakey.options.auto_equip": "Automatically equip Elytra:",
+	"elytrakey.options.when_falling": "when falling",
+	"elytrakey.options.when_firework": "when holding Firework",
+	"elytrakey.options.easy_takeoff": "Easy Take-off: %s",
+	"elytrakey.options.auto_unequip": "Auto Unequip: %s",
+	"elytrakey.options.tooltip.easy_takeoff": "Automatically jump, boost and equip Elytra when right clicking a firework.",
+	"elytrakey.options.tooltip.auto_unequip": "Automatically switch back to chestplate when landing."
 }
