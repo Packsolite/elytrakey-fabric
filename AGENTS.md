@@ -10,9 +10,7 @@ Fabric client mod (ElytraKey) — single Gradle module, Fabric Loom, **Java 25**
 
 ## Version bumps
 
-All versions live in `gradle.properties` (`minecraft_version`, `loader_version`, `loom_version`, `fabric_api_version`,
-`modmenu_version`). The `minecraft` dependency in `src/main/resources/fabric.mod.json` must be updated in sync (format:
-`~<minecraft_version>`).
+All versions live in `gradle.properties`. The `minecraft` dependency in `fabric.mod.json` uses `alpha-<build>` where the gradle property uses `snapshot-<build>`. Derive the correct version from `fabric_api_version`'s suffix or from build error output.
 
 Use the repo-local skill instead of doing this by hand: `opencode update-minecraft` (see
 `.agents/skills/update-minecraft/SKILL.md`). Its verification flow: `./gradlew build --no-daemon`, then

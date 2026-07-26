@@ -28,7 +28,7 @@ public class ElytraKey implements ModInitializer {
 
 	private static final int OFF_HAND_SLOT_ID = 40;
 	private static final int CHEST_PLATE_SLOT_ID = EquipmentSlot.CHEST.getIndex(36);
-	private static final List<Item> CHESTPLATE_PRIORITY = List.of(NETHERITE_CHESTPLATE, DIAMOND_CHESTPLATE, IRON_CHESTPLATE, CHAINMAIL_CHESTPLATE, GOLDEN_CHESTPLATE, COPPER_CHESTPLATE, LEATHER_HELMET);
+	private static final List<Item> CHESTPLATE_PRIORITY = List.of(NETHERITE_CHESTPLATE, DIAMOND_CHESTPLATE, IRON_CHESTPLATE, CHAINMAIL_CHESTPLATE, GOLDEN_CHESTPLATE, COPPER_CHESTPLATE, LEATHER_CHESTPLATE);
 
 	public static boolean AUTO_EQUIP_FALL = true;
 	public static boolean AUTO_EQUIP_FIREWORKS = false;
