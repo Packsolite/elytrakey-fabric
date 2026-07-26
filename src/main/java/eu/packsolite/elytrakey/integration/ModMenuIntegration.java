@@ -1,4 +1,4 @@
-package eu.packsolite.elytrakey;
+package eu.packsolite.elytrakey.integration;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;

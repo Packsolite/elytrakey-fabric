@@ -16,46 +16,50 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 public class InventoryHelper {
 
+	public static final int OFF_HAND_SLOT = 40;
 	private static final int CHEST_ARMOR_SLOT = EquipmentSlot.CHEST.getIndex(36);
 	private static final int CHEST_CONTAINER_SLOT = 6;
 
-	public static boolean isElytraEquipped(Minecraft mc) {
+	public static boolean isElytraEquipped() {
+		var mc = Minecraft.getInstance();
 		return mc.player.getInventory().getItem(CHEST_ARMOR_SLOT).getItem() == Items.ELYTRA;
 	}
 
-	public static boolean equipElytra(Minecraft mc) {
-		if (isElytraEquipped(mc)) return true;
-		int slot = searchItem(mc, Items.ELYTRA);
+	public static boolean equipElytra() {
+		if (isElytraEquipped()) return true;
+		int slot = searchItem(Items.ELYTRA);
 		if (slot == -1) return false;
-		swapToChest(mc, slot);
+		swapToChest(slot);
 		return true;
 	}
 
-	public static boolean equipChestplate(Minecraft mc) {
-		int slot = findBestChestplate(mc);
+	public static boolean equipChestplate() {
+		int slot = findBestChestplate();
 		if (slot == -1) return false;
-		swapToChest(mc, slot);
+		swapToChest(slot);
 		return true;
 	}
 
-	public static void swapElytra(Minecraft mc) {
-		if (isElytraEquipped(mc)) {
-			if (!equipChestplate(mc)) {
+	public static void swapElytra() {
+		if (isElytraEquipped()) {
+			if (!equipChestplate()) {
+				var mc = Minecraft.getInstance();
 				int emptySlot = mc.player.getInventory().getFreeSlot();
 				if (emptySlot < 0) {
-					print(mc, "elytrakey.chat.full_inventory");
+					print("elytrakey.chat.full_inventory");
 				} else {
-					swapToChest(mc, emptySlot);
+					swapToChest(emptySlot);
 				}
 			}
 		} else {
-			if (!equipElytra(mc)) {
-				print(mc, "elytrakey.chat.no_elytra");
+			if (!equipElytra()) {
+				print("elytrakey.chat.no_elytra");
 			}
 		}
 	}
 
-	private static void swapToChest(Minecraft mc, int slotIndex) {
+	private static void swapToChest(int slotIndex) {
+		var mc = Minecraft.getInstance();
 		int containerId = mc.player.inventoryMenu.containerId;
 		if (slotIndex < 9) {
 			mc.gameMode.handleContainerInput(containerId, CHEST_CONTAINER_SLOT, slotIndex, ContainerInput.SWAP, mc.player);
@@ -66,7 +70,8 @@ public class InventoryHelper {
 		}
 	}
 
-	private static int findBestChestplate(Minecraft mc) {
+	private static int findBestChestplate() {
+		var mc = Minecraft.getInstance();
 		var container = mc.player.getInventory().getNonEquipmentItems();
 		int bestSlot = -1;
 		int bestScore = -1;
@@ -109,7 +114,8 @@ public class InventoryHelper {
 		return (int) (armor * 1000 + toughness * 100 + enchantLevels);
 	}
 
-	private static int searchItem(Minecraft mc, Item item) {
+	private static int searchItem(Item item) {
+		var mc = Minecraft.getInstance();
 		NonNullList<ItemStack> container = mc.player.getInventory().getNonEquipmentItems();
 		for (int i = 0; i < container.size(); i++) {
 			if (container.get(i).getItem() == item) return i;
@@ -117,7 +123,8 @@ public class InventoryHelper {
 		return -1;
 	}
 
-	public static void print(Minecraft mc, String translationKey) {
+	public static void print(String translationKey) {
+		var mc = Minecraft.getInstance();
 		if (mc.player != null) {
 			mc.player.sendOverlayMessage(Component.translatable(translationKey));
 		}

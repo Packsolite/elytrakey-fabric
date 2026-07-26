@@ -10,7 +10,9 @@ Fabric client mod (ElytraKey) — single Gradle module, Fabric Loom, **Java 25**
 
 ## Version bumps
 
-All versions live in `gradle.properties`. The `minecraft` dependency in `fabric.mod.json` uses `alpha-<build>` where the gradle property uses `snapshot-<build>`. Derive the correct version from `fabric_api_version`'s suffix or from build error output.
+All versions live in `gradle.properties`. The `minecraft` dependency in `fabric.mod.json` uses `alpha-<build>` where the
+gradle property uses `snapshot-<build>`. Derive the correct version from `fabric_api_version`'s suffix or from build
+error output.
 
 Use the repo-local skill instead of doing this by hand: `opencode update-minecraft` (see
 `.agents/skills/update-minecraft/SKILL.md`). Its verification flow: `./gradlew build --no-daemon`, then
@@ -26,7 +28,7 @@ error and fix `fabric.mod.json`.
 - `mod_version` in `gradle.properties` is expanded into `fabric.mod.json` at build time via `processResources` — don't
   hardcode a version there.
 - Built jar name includes the MC version: `elytrakey-fabric-mc<version>-<mod_version>.jar`.
-- Lombok is a `compileOnly` + `annotationProcessor` dependency; use `@Slf4j(topic = "elytrakey")` for logging,
+- Lombok is a `compileOnly` + `annotationProcessor` dependency; use `@Slf4j(topic = MOD_ID)` for logging,
   `@With` for immutable mutation on records, and `@Getter`/`@Setter` for encapsulated fields.
 
 ## Publishing
@@ -37,7 +39,9 @@ creates a GitHub Release with auto-generated changelog, and publishes to Modrint
 ## Structure
 
 - Entrypoint: `eu.packsolite.elytrakey.ElytraKey` (`ModInitializer`, registered in `fabric.mod.json`); handles
-  initialization, keybind registration, tick orchestration, and the easy-takeoff state machine.
+  initialization, keybind registration, tick orchestration, and creates the feature instances.
+- `feature/` — `SwapFeature` (auto-equip/unequip state, owns `wasAutoEquipped`) and `EasyTakeoffFeature`
+  (firework boost state machine, owns `startFlying`/`boostNextTick`). Each has a `tick()` called from `ElytraKey`.
 - `util/InventoryHelper` — all inventory operations (equip/swap/search/score chestplates).
 - `options/` — `ConfigModel` (`@With` record, immutable) + `ConfigLoader` (Gson, returns/takes `ConfigModel` directly).
 - `ui/` — `ElytraKeyOptions` (options screen, mutates config via `withX()`).
