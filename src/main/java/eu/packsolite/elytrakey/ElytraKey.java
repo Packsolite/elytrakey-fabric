@@ -46,6 +46,8 @@ public class ElytraKey implements ModInitializer {
 	}
 
 	private void tick() {
+		if (mc.player == null) return;
+		
 		while (swapElytraKeyBinding.consumeClick()) {
 			InventoryHelper.swapElytra();
 		}
@@ -53,8 +55,6 @@ public class ElytraKey implements ModInitializer {
 		while (elytraOptionsKeyBinding.consumeClick()) {
 			mc.setScreenAndShow(new ElytraKeyOptions());
 		}
-
-		if (mc.player == null) return;
 
 		boolean fireworksInMainHand = mc.player.getInventory().getSelectedItem().getItem() == Items.FIREWORK_ROCKET;
 		boolean fireworksInOffHand = mc.player.getInventory().getItem(InventoryHelper.OFF_HAND_SLOT).getItem() == Items.FIREWORK_ROCKET;

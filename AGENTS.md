@@ -40,13 +40,13 @@ creates a GitHub Release with auto-generated changelog, and publishes to Modrint
 
 - Entrypoint: `eu.packsolite.elytrakey.ElytraKey` (`ModInitializer`, registered in `fabric.mod.json`); handles
   initialization, keybind registration, tick orchestration, and creates the feature instances.
-- `feature/` — `SwapFeature` (auto-equip/unequip state, owns `wasAutoEquipped`) and `EasyTakeoffFeature`
-  (firework boost state machine, owns `startFlying`/`boostNextTick`). Each has a `tick()` called from `ElytraKey`.
+- `feature/` — `AutoSwapFeature` (auto-equip/unequip state, owns `wasAutoEquipped`) and `EasyTakeoffFeature`
+  (firework boost state machine, owns `startFlying`/`boostNextTick`). Each has an `update()` called from `ElytraKey.tick()`.
 - `util/InventoryHelper` — all inventory operations (equip/swap/search/score chestplates).
 - `options/` — `ConfigModel` (`@With` record, immutable) + `ConfigLoader` (Gson, returns/takes `ConfigModel` directly).
 - `ui/` — `ElytraKeyOptions` (options screen, mutates config via `withX()`).
 - `ModConstants` — shared constants (`MOD_ID`).
-- `ModMenuIntegration` — optional ModMenu hook.
+- `integration/ModMenuIntegration` — optional ModMenu hook.
 - `elytrakey.mixins.json` exists but defines no mixins; add mixin classes under `eu.packsolite.elytrakey.mixin` if ever
   needed.
 
