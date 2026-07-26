@@ -7,6 +7,7 @@ import eu.packsolite.elytrakey.ui.ElytraKeyOptions;
 import eu.packsolite.elytrakey.util.InventoryHelper;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
@@ -18,9 +19,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
 
-public class ElytraKey implements ModInitializer {
+import static eu.packsolite.elytrakey.ModConstants.MOD_ID;
 
+@Slf4j(topic = MOD_ID)
+public class ElytraKey implements ModInitializer {
 	private static final int OFF_HAND_SLOT_ID = 40;
+
 
 	@Setter
 	@Getter
@@ -38,10 +42,11 @@ public class ElytraKey implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		config = new ConfigLoader().loadConfig();
-		KeyMapping.Category cat = KeyMapping.Category.register(Identifier.parse("elytrakey"));
+		KeyMapping.Category cat = KeyMapping.Category.register(Identifier.parse(MOD_ID));
 		swapElytraKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("Swap Elytra", InputConstants.Type.KEYBOARD, InputConstants.KEY_R, cat));
 		elytraOptionsKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping("ElytraKey Options", InputConstants.Type.KEYBOARD, InputConstants.KEY_K, cat));
 		ClientTickEvents.END_CLIENT_TICK.register(_ -> tick());
+		log.info("Initialized");
 	}
 
 	private void tick() {
