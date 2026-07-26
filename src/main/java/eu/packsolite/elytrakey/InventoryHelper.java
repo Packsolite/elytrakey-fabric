@@ -2,25 +2,22 @@ package eu.packsolite.elytrakey;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-
-import java.util.List;
-
-import static net.minecraft.world.item.Items.*;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 public class InventoryHelper {
 
 	private static final int CHEST_ARMOR_SLOT = EquipmentSlot.CHEST.getIndex(36);
 	private static final int CHEST_CONTAINER_SLOT = 6;
-	private static final List<Item> CHESTPLATE_PRIORITY = List.of(
-		NETHERITE_CHESTPLATE, DIAMOND_CHESTPLATE, IRON_CHESTPLATE,
-		CHAINMAIL_CHESTPLATE, GOLDEN_CHESTPLATE, COPPER_CHESTPLATE, LEATHER_CHESTPLATE
-	);
 
 	public static boolean isElytraEquipped(Minecraft mc) {
 		return mc.player.getInventory().getItem(CHEST_ARMOR_SLOT).getItem() == Items.ELYTRA;
@@ -70,11 +67,46 @@ public class InventoryHelper {
 	}
 
 	private static int findBestChestplate(Minecraft mc) {
-		for (var chestplate : CHESTPLATE_PRIORITY) {
-			int slot = searchItem(mc, chestplate);
-			if (slot != -1) return slot;
+		var container = mc.player.getInventory().getNonEquipmentItems();
+		int bestSlot = -1;
+		int bestScore = -1;
+		for (int i = 0; i < container.size(); i++) {
+			int score = scoreChestplate(container.get(i));
+			if (score > bestScore) {
+				bestScore = score;
+				bestSlot = i;
+			}
 		}
-		return -1;
+		return bestSlot;
+	}
+
+	private static int scoreChestplate(ItemStack stack) {
+		ItemAttributeModifiers attrs = stack.get(DataComponents.ATTRIBUTE_MODIFIERS);
+		if (attrs == null) return -1;
+
+		double armor = 0;
+		double toughness = 0;
+		boolean isChestplate = false;
+		for (var entry : attrs.modifiers()) {
+			if (entry.slot() != EquipmentSlotGroup.CHEST) continue;
+			isChestplate = true;
+			if (entry.attribute() == Attributes.ARMOR) {
+				armor = entry.modifier().amount();
+			} else if (entry.attribute() == Attributes.ARMOR_TOUGHNESS) {
+				toughness = entry.modifier().amount();
+			}
+		}
+		if (!isChestplate) return -1;
+
+		int enchantLevels = 0;
+		ItemEnchantments enchants = stack.get(DataComponents.ENCHANTMENTS);
+		if (enchants != null) {
+			for (var entry : enchants.entrySet()) {
+				enchantLevels += entry.getIntValue();
+			}
+		}
+
+		return (int)(armor * 1000 + toughness * 100 + enchantLevels);
 	}
 
 	private static int searchItem(Minecraft mc, Item item) {
