@@ -35,14 +35,14 @@ public class ElytraKeyOptions extends Screen {
 				literal("when falling"),
 				this.font)
 			.pos(this.width / 2 - 75, this.height / 6 + yOffset + 40)
-			.selected(ElytraKey.AUTO_EQUIP_FALL)
+			.selected(ElytraKey.getConfig().autoEquipFall())
 			.build());
 
 		this.addRenderableWidget(fireworkWidget = Checkbox.builder(
 				literal("when holding Firework"),
 				this.font)
 			.pos(this.width / 2 - 75, this.height / 6 + yOffset + 60)
-			.selected(ElytraKey.AUTO_EQUIP_FIREWORKS)
+			.selected(ElytraKey.getConfig().autoEquipFirework())
 			.build());
 
 		this.addEasyTakeoffButton();
@@ -50,11 +50,11 @@ public class ElytraKeyOptions extends Screen {
 	}
 
 	private void addEasyTakeoffButton() {
-		Supplier<Component> buttonText = () -> literal("Easy Take-off: " + (ElytraKey.EASY_TAKEOFF ? "On" : "Off"));
+		Supplier<Component> buttonText = () -> literal("Easy Take-off: " + (ElytraKey.getConfig().easyTakeoff() ? "On" : "Off"));
 		var tooltipText = Tooltip.create(easyTakeofTooltipText);
 
 		Button.OnPress action = button -> {
-			ElytraKey.EASY_TAKEOFF = !ElytraKey.EASY_TAKEOFF;
+			ElytraKey.setConfig(ElytraKey.getConfig().withEasyTakeoff(!ElytraKey.getConfig().easyTakeoff()));
 			button.setMessage(buttonText.get());
 		};
 
@@ -68,11 +68,11 @@ public class ElytraKeyOptions extends Screen {
 	}
 
 	private void addAutoUnequipButton() {
-		Supplier<Component> buttonText = () -> literal("Auto Unequip: " + (ElytraKey.AUTO_UNEQUIP ? "On" : "Off"));
+		Supplier<Component> buttonText = () -> literal("Auto Unequip: " + (ElytraKey.getConfig().autoUnequip() ? "On" : "Off"));
 		var tooltipText = Tooltip.create(autoUnequipTooltipText);
 
 		Button.OnPress action = button -> {
-			ElytraKey.AUTO_UNEQUIP = !ElytraKey.AUTO_UNEQUIP;
+			ElytraKey.setConfig(ElytraKey.getConfig().withAutoUnequip(!ElytraKey.getConfig().autoUnequip()));
 			button.setMessage(buttonText.get());
 		};
 
@@ -95,9 +95,8 @@ public class ElytraKeyOptions extends Screen {
 	@Override
 	public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
 		boolean b = super.mouseClicked(click, doubled);
-		ElytraKey.AUTO_EQUIP_FALL = fallWidget.selected();
-		ElytraKey.AUTO_EQUIP_FIREWORKS = fireworkWidget.selected();
-		new ConfigLoader().saveConfig();
+		ElytraKey.setConfig(ElytraKey.getConfig().withAutoEquipFall(fallWidget.selected()).withAutoEquipFirework(fireworkWidget.selected()));
+		new ConfigLoader().saveConfig(ElytraKey.getConfig());
 		return b;
 	}
 }

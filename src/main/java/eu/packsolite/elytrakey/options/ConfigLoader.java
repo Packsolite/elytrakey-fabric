@@ -2,58 +2,37 @@ package eu.packsolite.elytrakey.options;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import eu.packsolite.elytrakey.ElytraKey;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static eu.packsolite.elytrakey.ModConstants.MOD_ID;
+
+@Slf4j(topic = MOD_ID)
 public class ConfigLoader {
 
-	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	private final String configPath = "config/elytrakey.json";
+	private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private final File file = new File("config/elytrakey.json");
 
-	public void loadConfig() {
-
-		File file = new File(configPath);
-		ConfigModel config;
-
-		if (file.exists()) {
-			try (FileReader fr = new FileReader(file)) {
-				config = gson.fromJson(fr, ConfigModel.class);
-
-			} catch (IOException ex) {
-				config = new ConfigModel();
-			}
-		} else {
-			config = new ConfigModel();
+	public ConfigModel loadConfig() {
+		if (!file.exists()) return ConfigModel.DEFAULT;
+		try (FileReader fr = new FileReader(file)) {
+			ConfigModel config = gson.fromJson(fr, ConfigModel.class);
+			return config != null ? config : ConfigModel.DEFAULT;
+		} catch (IOException ex) {
+			log.warn("Failed to load config, using defaults", ex);
+			return ConfigModel.DEFAULT;
 		}
-
-		// load config
-		ElytraKey.AUTO_EQUIP_FALL = config.autoEquipFall;
-		ElytraKey.AUTO_EQUIP_FIREWORKS = config.autoEquipFirework;
-		ElytraKey.AUTO_UNEQUIP = config.autoUnequip;
-		ElytraKey.EASY_TAKEOFF = config.easyTakeoff;
-		ElytraKey.AUTO_EQUIP_FALL_VELOCITY = config.autoEquipFallVelocity;
 	}
 
-	public void saveConfig() {
-		ConfigModel config = new ConfigModel();
-
-		// set config
-		config.autoEquipFall = ElytraKey.AUTO_EQUIP_FALL;
-		config.autoEquipFirework = ElytraKey.AUTO_EQUIP_FIREWORKS;
-		config.autoUnequip = ElytraKey.AUTO_UNEQUIP;
-		config.easyTakeoff = ElytraKey.EASY_TAKEOFF;
-		config.autoEquipFallVelocity = ElytraKey.AUTO_EQUIP_FALL_VELOCITY;
-
-		File file = new File(configPath);
-
+	public void saveConfig(ConfigModel config) {
 		try (FileWriter fw = new FileWriter(file)) {
 			gson.toJson(config, fw);
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			log.error("Failed to save config", ex);
 			throw new RuntimeException("Could not save ElytraKey config", ex);
 		}
 	}
