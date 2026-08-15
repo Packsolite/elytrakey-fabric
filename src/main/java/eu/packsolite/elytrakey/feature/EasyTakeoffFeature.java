@@ -5,6 +5,7 @@ import eu.packsolite.elytrakey.util.InventoryHelper;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
 
@@ -31,7 +32,7 @@ public class EasyTakeoffFeature {
 				boostNextTick = false;
 				mc.options.keyJump.setDown(false);
 				mc.gameMode.useItem(mc.player, fireworkHand);
-				mc.player.swing(InteractionHand.MAIN_HAND);
+				mc.player.swing(InteractionHand.MAIN_HAND, SwingAnimation.DEFAULT, false);
 			}
 		} else {
 			if (startFlying) {
